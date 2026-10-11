@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 @Configuration
 public class BootstrapAdmin {
- @Bean ApplicationRunner bootstrapAdmin(JdbcTemplate jdbc, PasswordEncoder encoder,
+ @Bean ApplicationRunner adminBootstrapRunner(JdbcTemplate jdbc, PasswordEncoder encoder,
     @Value("${BOOTSTRAP_ADMIN_USERNAME:}") String username,
     @Value("${BOOTSTRAP_ADMIN_EMAIL:}") String email,
     @Value("${BOOTSTRAP_ADMIN_PASSWORD:}") String password) {

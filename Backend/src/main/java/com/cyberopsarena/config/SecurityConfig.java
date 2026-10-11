@@ -21,7 +21,14 @@ import java.util.Arrays;
 public class SecurityConfig {
     @Bean PasswordEncoder passwordEncoder(){ return new BCryptPasswordEncoder(12); }
     @Bean SecurityFilterChain security(HttpSecurity http, TokenService tokens, JdbcTemplate jdbc, @Value("${app.cors-origins}") String origins) throws Exception {
-        http.csrf(c->c.disable()).cors(c->c.configurationSource(req->{ var cfg=new CorsConfiguration(); cfg.setAllowedOrigins(Arrays.stream(origins.split(",")).map(String::trim).toList()); cfg.setAllowedMethods(java.util.List.of("GET","POST","PATCH","OPTIONS")); cfg.setAllowedHeaders(java.util.List.of("Authorization","Content-Type")); return cfg; })));
+        http.csrf(csrf -> csrf.disable());
+        http.cors(cors -> cors.configurationSource(request -> {
+            var config = new CorsConfiguration();
+            config.setAllowedOrigins(Arrays.stream(origins.split(",")).map(String::trim).toList());
+            config.setAllowedMethods(java.util.List.of("GET", "POST", "PATCH", "OPTIONS"));
+            config.setAllowedHeaders(java.util.List.of("Authorization", "Content-Type"));
+            return config;
+        }));
         http.sessionManagement(s->s.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.authorizeHttpRequests(a->a.requestMatchers("/api/v1/auth/login","/actuator/health/**","/swagger-ui/**","/v3/api-docs/**").permitAll().anyRequest().authenticated());
         http.addFilterBefore(new JwtFilter(tokens,jdbc), UsernamePasswordAuthenticationFilter.class);

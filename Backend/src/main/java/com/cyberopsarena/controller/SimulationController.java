@@ -14,8 +14,6 @@ public class SimulationController {
  public SimulationController(SimulationService service){this.service=service;}
  public record CreateRun(@NotNull Long scenarioId){}
  public record DefenseRequest(@NotBlank String actionType,@NotBlank String reason,Long targetAssetId,Long edgeId,Long alertId){}
- @GetMapping("/scenarios") public Object scenarios(){return service.scenarios();}
- @GetMapping("/scenarios/{id}") public Object scenario(@PathVariable long id){return service.scenario(id);}
  @PostMapping("/simulation-runs") public Object create(@Valid @RequestBody CreateRun body,Authentication auth){return service.createRun(body.scenarioId(),auth.getName());}
  @GetMapping("/simulation-runs") public Object runs(Authentication auth){return service.runs(auth.getName());}
  @GetMapping("/simulation-runs/{id}") public Object run(@PathVariable long id,Authentication auth){return service.run(id,auth.getName());}
