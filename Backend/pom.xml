@@ -19,5 +19,30 @@
     <dependency><groupId>org.testcontainers</groupId><artifactId>mysql</artifactId><scope>test</scope></dependency>
     <dependency><groupId>org.testcontainers</groupId><artifactId>junit-jupiter</artifactId><scope>test</scope></dependency>
   </dependencies>
-  <build><plugins><plugin><groupId>org.springframework.boot</groupId><artifactId>spring-boot-maven-plugin</artifactId></plugin></plugins></build>
+  <build><plugins>
+    <plugin><groupId>org.springframework.boot</groupId><artifactId>spring-boot-maven-plugin</artifactId></plugin>
+  </plugins></build>
+  <profiles>
+    <profile>
+      <id>rootless-podman-testcontainers</id>
+      <activation>
+        <file>
+          <exists>${env.XDG_RUNTIME_DIR}/podman/podman.sock</exists>
+        </file>
+      </activation>
+      <build><plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <configuration>
+            <systemPropertyVariables>
+              <docker.client.strategy>org.testcontainers.dockerclient.EnvironmentAndSystemPropertyClientProviderStrategy</docker.client.strategy>
+              <docker.host>unix://${env.XDG_RUNTIME_DIR}/podman/podman.sock</docker.host>
+              <ryuk.disabled>true</ryuk.disabled>
+            </systemPropertyVariables>
+          </configuration>
+        </plugin>
+      </plugins></build>
+    </profile>
+  </profiles>
 </project>
