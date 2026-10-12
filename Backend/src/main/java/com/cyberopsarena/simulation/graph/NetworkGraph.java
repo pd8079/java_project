@@ -5,6 +5,7 @@ import java.util.*;
 /** Directed graph helper used only for virtual reachability checks. */
 public final class NetworkGraph {
     private final Map<Long,List<Long>> adjacency = new HashMap<>();
+    public NetworkGraph() { this(List.of()); }
     public NetworkGraph(Collection<long[]> edges) { for (long[] edge : edges) adjacency.computeIfAbsent(edge[0], k->new ArrayList<>()).add(edge[1]); }
     public boolean reachable(long from,long to) {
         if(from==to) return true;

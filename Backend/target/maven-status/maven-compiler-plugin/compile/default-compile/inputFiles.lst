@@ -9,10 +9,17 @@
 /var/home/srodrigues/Desktop/java_project/Backend/src/main/java/com/cyberopsarena/controller/UserController.java
 /var/home/srodrigues/Desktop/java_project/Backend/src/main/java/com/cyberopsarena/domain/entity/User.java
 /var/home/srodrigues/Desktop/java_project/Backend/src/main/java/com/cyberopsarena/exception/ApiExceptionHandler.java
+/var/home/srodrigues/Desktop/java_project/Backend/src/main/java/com/cyberopsarena/repository/UserJdbcRepository.java
 /var/home/srodrigues/Desktop/java_project/Backend/src/main/java/com/cyberopsarena/repository/UserRepository.java
 /var/home/srodrigues/Desktop/java_project/Backend/src/main/java/com/cyberopsarena/security/JwtFilter.java
 /var/home/srodrigues/Desktop/java_project/Backend/src/main/java/com/cyberopsarena/security/TokenService.java
+/var/home/srodrigues/Desktop/java_project/Backend/src/main/java/com/cyberopsarena/service/AuthenticationService.java
+/var/home/srodrigues/Desktop/java_project/Backend/src/main/java/com/cyberopsarena/service/BackgroundSimulationRunner.java
+/var/home/srodrigues/Desktop/java_project/Backend/src/main/java/com/cyberopsarena/service/DetectionRuleService.java
+/var/home/srodrigues/Desktop/java_project/Backend/src/main/java/com/cyberopsarena/service/NetworkTemplateService.java
+/var/home/srodrigues/Desktop/java_project/Backend/src/main/java/com/cyberopsarena/service/ScenarioManagementService.java
 /var/home/srodrigues/Desktop/java_project/Backend/src/main/java/com/cyberopsarena/service/SimulationService.java
+/var/home/srodrigues/Desktop/java_project/Backend/src/main/java/com/cyberopsarena/service/UserService.java
 /var/home/srodrigues/Desktop/java_project/Backend/src/main/java/com/cyberopsarena/simulation/graph/NetworkGraph.java
 /var/home/srodrigues/Desktop/java_project/Backend/src/main/java/com/cyberopsarena/simulation/strategy/AccountCompromiseStrategy.java
 /var/home/srodrigues/Desktop/java_project/Backend/src/main/java/com/cyberopsarena/simulation/strategy/AttackStrategy.java

@@ -29,17 +29,19 @@
         <file>
           <exists>${env.XDG_RUNTIME_DIR}/podman/podman.sock</exists>
         </file>
+        <property>
+          <name>!env.DOCKER_HOST</name>
+        </property>
       </activation>
       <build><plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
           <configuration>
-            <systemPropertyVariables>
-              <docker.client.strategy>org.testcontainers.dockerclient.EnvironmentAndSystemPropertyClientProviderStrategy</docker.client.strategy>
-              <docker.host>unix://${env.XDG_RUNTIME_DIR}/podman/podman.sock</docker.host>
-              <ryuk.disabled>true</ryuk.disabled>
-            </systemPropertyVariables>
+            <environmentVariables>
+              <DOCKER_HOST>unix://${env.XDG_RUNTIME_DIR}/podman/podman.sock</DOCKER_HOST>
+              <TESTCONTAINERS_RYUK_DISABLED>true</TESTCONTAINERS_RYUK_DISABLED>
+            </environmentVariables>
           </configuration>
         </plugin>
       </plugins></build>
