@@ -1,143 +1,115 @@
 <p align="center">
-  <img src="frontend/assets/c-ops-logo.svg" alt="CyberOps Arena" width="260">
+  <img src="frontend/assets/cyberops-readme-hero.svg" alt="CyberOps Arena — Build. Simulate. Defend." width="100%">
 </p>
 
-<h1 align="center">CyberOps Arena</h1>
+<p align="center">
+  <strong>🧠 LEARN BY DOING</strong> &nbsp; · &nbsp;
+  <strong>🧪 SAFE SIMULATIONS</strong> &nbsp; · &nbsp;
+  <strong>🛡️ PRACTICE YOUR RESPONSE</strong>
+</p>
 
-<p align="center">A simple website for learning how a security team finds and handles cyber threats.</p>
+<p align="center">
+  <a href="#-the-workspace"><strong>Explore the workspace</strong></a> &nbsp; ✦ &nbsp;
+  <a href="#-your-first-exercise"><strong>Start your first exercise</strong></a> &nbsp; ✦ &nbsp;
+  <a href="#-choose-your-role"><strong>Choose your role</strong></a>
+</p>
 
-## What is this project?
+## ✨ Welcome to CyberOps Arena
 
-CyberOps Arena is a practice tool. You can build a small pretend network, run a threat exercise, and review the alerts it creates.
+CyberOps Arena is a hands-on learning website for cyber security. Build a pretend network, run a threat exercise, and learn how a security team responds.
 
-> **Safe practice:** All activity is simulated and saved in the project database. The app does not attack real computers, scan real networks, or change real accounts or firewalls.
+<p align="center"><strong>🧩 Build a network &nbsp; → &nbsp; 🎭 Run a scenario &nbsp; → &nbsp; 🚨 Review alerts &nbsp; → &nbsp; 🛡️ Practice a defense</strong></p>
 
-## Get started
+> [!IMPORTANT]
+> **This is a safe practice space.** All attacks and defenses are simulated. The website does not scan real networks, attack real computers, or change real accounts or firewalls.
 
-To use the container setup, you need Docker Compose or Podman Compose. For a manual setup, you also need Java 21, Maven, and MySQL 8.4.
+## 🧭 The workspace
 
-1. Open a terminal in this project.
-2. Go to the backend folder and open a text editor. Make a new file named `.env`:
+| | Page | What you can do |
+|:---:|---|---|
+| 📊 | **Overview** | See your runs, alerts, activity, and saved networks at a glance. |
+| 🧩 | **Network Lab** | Build pretend networks from devices, accounts, and connections. |
+| 🎮 | **Simulation** | Run a threat scenario one step at a time or let it finish. |
+| 🚨 | **Incidents** | Review alerts, make detection rules, and practice a response. |
+| 🔐 | **Access Control** | Admins can create and manage accounts. |
 
-   ```sh
-   cd Backend
-   ```
+## 🚀 Your first exercise
 
-   Put these settings in `Backend/.env`. Replace the sample text with your own private passwords and secret:
+1. **Sign in** or choose **Create an account**. Pick Analyst or Defender.
+2. **Open Network Lab.** Choose a saved network or create one.
+3. **Add assets** such as a workstation, user account, or database.
+4. **Connect the assets.** Connections have a direction, like a path from one asset to another.
+5. **Open Simulation.** Choose a scenario and select **Create isolated run**.
+6. **Start the run.** Use **Run one step** to watch closely, or **Run to completion** to finish it.
+7. **Open Incidents.** Review any alerts, then practice the response allowed by your role.
 
-   ```env
-   DB_NAME=cyberops_arena
-   DB_USERNAME=cyberops
-   DB_PASSWORD=choose-a-private-database-password
-   MYSQL_ROOT_PASSWORD=choose-a-private-root-password
-   JWT_SECRET=replace-with-at-least-32-random-characters
-   ```
+## 🗺️ Explore each page
 
-   The JWT secret must have 32 or more characters. Keep this file private.
-3. Start the app:
+### 📊 Overview — your security snapshot
 
-   ```sh
-   docker compose up --build -d
-   ```
+Get a quick view of open alerts, your simulation runs, recorded events, and available network templates. Check alert activity, severity, and recent alerts here.
 
-   If you use Podman, you can run `podman compose up --build -d` instead.
+### 🧩 Network Lab — build your practice network
 
-4. Open **http://localhost:3000** in your browser. Create an Analyst or Defender account, then sign in.
+Create a named network template or choose one that is already saved. Add assets and set each asset’s type, importance, and starting state. Then connect two assets and give the connection a name.
 
-The website is on port `3000`. The Java backend API is on port `8080`. The first start may take a little while because the app needs to download its software and prepare the database.
+The connection points from a **source** asset to a **target** asset. For example, a workstation may connect to an employee account. The network you build becomes the starting point for a scenario.
 
-### Stop the app
+### 🎮 Simulation — watch a scenario play out
 
-Run this command from the `Backend` folder:
+Choose a saved scenario, create an isolated run, and select it from **Your runs**. You can:
 
-```sh
-docker compose down
-```
+- **Start** the run.
+- **Run one step** to see each action as it happens.
+- **Run to completion** to finish the scenario automatically.
+- **Pause** or **Stop** the run.
 
-This stops the app and keeps your saved data. To erase the local database too, run `docker compose down -v`.
-If you started the app with Podman, use `podman compose down` to stop it.
+The event stream shows what happened. Run metrics summarize events, successful or blocked steps, assets reached, and modeled risk.
 
-## How to use the website
+Scenarios can include **account compromise**, **movement between assets**, and **suspicious logins**. Analysts and Admins can create a scenario, choose its network, and add steps by picking an action, source asset, and target asset. Once a run is created from a scenario, that scenario can no longer be changed.
 
-1. **Network Lab:** Choose a network or make your own. Add pretend devices and accounts, then connect them with edges.
-2. **Simulation:** Choose a saved scenario and create a run. Start it or move through it one step at a time.
-3. **Incidents:** Review alerts made by your runs. Acknowledge or resolve an alert, and try a simulated defense.
-4. **Overview:** Check your latest runs, alerts, and networks.
+Every run has its own copy of the network. A defense in one run does not alter your saved network or another run.
 
-Choose **Analyst** or **Defender** when you sign up. Each role has its own access. Analysts review alerts and study what happened. Defenders practice protecting the pretend network.
+### 🚨 Incidents — investigate and respond
 
-On the sign-in and sign-up screen, select the doodle cat beside a password to show or hide it. When the password is hidden, the cat covers its eyes.
+Review alerts created by your runs. Acknowledge an alert when you have started reviewing it; resolve it when you have finished. Refresh the list to see new alerts.
 
-## Project parts
+Detection rules watch for events such as:
 
-| Folder | What it contains |
-| --- | --- |
-| `frontend/` | The website pages and styles |
-| `Backend/` | The Java web API and database setup |
-| `Backend/src/main/resources/db/migration/` | Database setup steps, run by Flyway |
+- Repeated failed logins
+- Unexpected movement between assets
+- Access to an important asset
+- An attempt to reach an isolated asset
+- A successful account compromise
 
-The app uses Java 21, Spring Boot, MySQL 8.4, and a plain HTML frontend. It uses Docker Compose or Podman Compose to start the parts together.
+Analysts and Admins can create detection rules and set their severity. Defenders and Admins can apply simulated defenses to a run. Available actions include isolating an asset, disabling an account, blocking a connection, and acknowledging an alert. Add a reason to record why you chose the defense.
 
-## Run the website without containers
+### 🔐 Access Control — manage accounts
 
-You can run the backend with a local MySQL server, then serve the website by itself.
+Admins can create accounts, choose roles, and manage existing accounts. People who sign up on their own can choose Analyst or Defender.
 
-First, create a MySQL database and user. Flyway needs permission to create and update database tables:
+## 🎭 Choose your role
 
-```sql
-CREATE DATABASE cyberops_arena CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
-CREATE USER 'cyberops'@'localhost' IDENTIFIED BY 'choose-a-long-password';
-GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, INDEX, REFERENCES
-  ON cyberops_arena.* TO 'cyberops'@'localhost';
-```
+| Role | Your focus |
+|---|---|
+| 🕵️ **Analyst** | Build scenarios, investigate alerts, and create detection rules. |
+| 🛡️ **Defender** | Apply simulated defenses and practice containing a threat. |
+| 👑 **Admin** | Manage accounts and use Analyst and Defender tools. |
 
-In one terminal, go to `Backend/`, set your database and JWT settings, then start the backend:
+## 🐱 A small sign-in helper
 
-```sh
-cd Backend
-export DB_HOST=localhost DB_PORT=3306 DB_NAME=cyberops_arena
-export DB_USERNAME=cyberops DB_PASSWORD='your-database-password'
-export JWT_SECRET='use-at-least-32-random-characters-here'
-mvn spring-boot:run
-```
+On the sign-in and sign-up screens, select the doodle cat beside a password to show or hide it. When the password is hidden, the cat covers its eyes. When the password is shown, the cat opens its eyes.
 
-In another terminal, go to the project folder and start the website:
+## 📖 Quick glossary
 
-```sh
-python3 -m http.server 3000 --directory frontend
-```
+| Word | What it means here |
+|---|---|
+| **Template** | A saved plan of a pretend network. |
+| **Asset** | A pretend device, service, or account in a network. |
+| **Connection** | A one-way path from one asset to another. |
+| **Scenario** | A list of pretend actions for an exercise. |
+| **Run** | One try of a scenario, saved on its own. |
+| **Alert** | A warning created when an event matches a rule. |
+| **Defense** | A pretend action that limits an attack in a run. |
 
-Open **http://localhost:3000**. The sign-in page uses `http://localhost:8080/api/v1` for the backend by default. You can change the backend address on that page.
-
-## Test the backend
-
-From the `Backend/` folder, run:
-
-```sh
-mvn test
-```
-
-Some tests need Docker or Podman to start a temporary MySQL database. If no container service is available, the database test may be skipped.
-
-## Useful links
-
-- Website: [http://localhost:3000](http://localhost:3000)
-- Backend health: [http://localhost:8080/actuator/health](http://localhost:8080/actuator/health)
-- API guide: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
-- API details in JSON: [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
-
-## A note about the Java class project
-
-The backend shows Java packages, classes, constructors, interfaces, and different classes that implement those interfaces. It also uses methods, streams, error handling, JDBC database work, and background threads.
-
-The project has a web page. It does **not** include a Java Swing desktop app. If a Swing app is required for your class, it must be made as a separate program and can connect to this backend API.
-
-## Need help?
-
-- **The website does not open:** Check that the frontend is running on port `3000`.
-- **Sign-in cannot reach the backend:** Check that the backend is running on port `8080` and that the address on the sign-in page is correct.
-- **The database will not start:** Check the database name, user, and passwords in `Backend/.env`.
-- **The backend reports a JWT error:** Set a JWT secret that has at least 32 characters.
-- **You need an Admin account:** Set `BOOTSTRAP_ADMIN_USERNAME`, `BOOTSTRAP_ADMIN_EMAIL`, and `BOOTSTRAP_ADMIN_PASSWORD` in `Backend/.env`, then restart the backend. The password must have at least 14 characters. New sign-ups can only choose Analyst or Defender.
-
-Do not share your `.env` file or add it to Git. It contains private passwords and secrets.
+<p align="center"><strong>Build with care. Follow the evidence. Defend the network. 💠</strong></p>

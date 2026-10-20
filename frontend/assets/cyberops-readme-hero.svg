@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="390" viewBox="0 0 1200 390" role="img" aria-labelledby="title desc">
+  <title id="title">CyberOps Arena</title>
+  <desc id="desc">Build, simulate, and defend in a safe cyber security learning space.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#07131e"/><stop offset=".55" stop-color="#111e34"/><stop offset="1" stop-color="#191531"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0" y1="1" x2="1" y2="0">
+      <stop stop-color="#39d8ef"/><stop offset="1" stop-color="#8968ff"/>
+    </linearGradient>
+    <radialGradient id="halo">
+      <stop stop-color="#30d7ed" stop-opacity=".23"/><stop offset="1" stop-color="#30d7ed" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="34" height="34" patternUnits="userSpaceOnUse">
+      <path d="M34 0H0v34" fill="none" stroke="#a5d7f3" stroke-opacity=".055" stroke-width="1"/>
+    </pattern>
+    <filter id="softGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="7" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1200" height="390" rx="30" fill="url(#bg)"/>
+  <rect width="1200" height="390" rx="30" fill="url(#grid)"/>
+  <ellipse cx="960" cy="195" rx="330" ry="280" fill="url(#halo)"/>
+  <path d="M40 35h1120a24 24 0 0 1 24 24v272a24 24 0 0 1-24 24H40a24 24 0 0 1-24-24V59a24 24 0 0 1 24-24Z" fill="none" stroke="#8ab8da" stroke-opacity=".15"/>
+  <g font-family="Inter,Segoe UI,Arial,sans-serif">
+    <rect x="76" y="82" width="204" height="31" rx="15.5" fill="#102b3b" stroke="#38d8ed" stroke-opacity=".52"/>
+    <circle cx="96" cy="97.5" r="4" fill="#55e4ff" filter="url(#softGlow)"/>
+    <text x="111" y="102" fill="#8feeff" font-size="12" font-weight="700" letter-spacing="2.3">A SAFE CYBER RANGE</text>
+    <text x="74" y="179" fill="#f2f7ff" font-size="47" font-weight="800" letter-spacing="-1.8">CyberOps Arena</text>
+    <text x="77" y="221" fill="#55e4ff" font-size="21" font-weight="800" letter-spacing="2.5">BUILD. SIMULATE. DEFEND.</text>
+    <text x="78" y="263" fill="#b6c5dd" font-size="17">Practice security skills in a pretend network.</text>
+    <text x="78" y="292" fill="#8da3c2" font-size="14">Explore alerts • Learn response • Keep it isolated</text>
+  </g>
+  <g fill="none" stroke="url(#glow)" stroke-width="2.5" opacity=".92">
+    <path d="M756 145 879 112l120 56 91-65M756 145l116 136 127-113 91 35M879 112l-7 169m127-113 91-65m-91 65 107 92" stroke-dasharray="5 8"/>
+  </g>
+  <g font-family="Inter,Segoe UI,Arial,sans-serif" text-anchor="middle">
+    <g transform="translate(714 119)"><circle r="39" fill="#0b1b2b" stroke="#49d9f0" stroke-width="2"/><circle r="31" fill="none" stroke="#49d9f0" stroke-opacity=".18"/><rect x="-14" y="-11" width="28" height="20" rx="3" fill="none" stroke="#a5f3ff" stroke-width="2"/><path d="M-18 14h36m-22-5-3 5m14-5 3 5" stroke="#a5f3ff" stroke-width="2" stroke-linecap="round"/><text y="59" fill="#bfefff" font-size="11" font-weight="700" letter-spacing="1">WORKSTATION</text></g>
+    <g transform="translate(917 89)"><circle r="39" fill="#0b1b2b" stroke="#997cff" stroke-width="2"/><circle r="31" fill="none" stroke="#997cff" stroke-opacity=".2"/><circle cy="-7" r="9" fill="none" stroke="#d0c3ff" stroke-width="2"/><path d="M-17 17c2-13 30-13 34 0" fill="none" stroke="#d0c3ff" stroke-width="2" stroke-linecap="round"/><text y="59" fill="#ded7ff" font-size="11" font-weight="700" letter-spacing="1">ACCOUNT</text></g>
+    <g transform="translate(1008 216)"><circle r="39" fill="#0b1b2b" stroke="#49d9f0" stroke-width="2"/><circle r="31" fill="none" stroke="#49d9f0" stroke-opacity=".18"/><ellipse rx="17" ry="6" cy="-14" fill="none" stroke="#a5f3ff" stroke-width="2"/><path d="M-17-14v26c0 8 34 8 34 0v-26m-34 9c0 8 34 8 34 0m-34 9c0 8 34 8 34 0" fill="none" stroke="#a5f3ff" stroke-width="2"/><text y="60" fill="#bfefff" font-size="11" font-weight="700" letter-spacing="1">DATABASE</text></g>
+    <g transform="translate(1110 135)"><circle r="34" fill="#171730" stroke="#9b7cff" stroke-width="2"/><path d="M0-19 16-13v12c0 12-8 19-16 24C-8 18-16 11-16-1v-12Z" fill="#202344" stroke="#b8a6ff" stroke-width="2"/><path d="m-8 0 6 6L9-8" fill="none" stroke="#65f0bf" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><text y="55" fill="#ded7ff" font-size="10" font-weight="700" letter-spacing="1">DEFEND</text></g>
+  </g>
+  <circle cx="756" cy="145" r="4" fill="#dcfbff" filter="url(#softGlow)"/><circle cx="879" cy="112" r="4" fill="#e5ddff" filter="url(#softGlow)"/><circle cx="1000" cy="168" r="4" fill="#dcfbff" filter="url(#softGlow)"/><circle cx="1091" cy="103" r="4" fill="#e5ddff" filter="url(#softGlow)"/>
+</svg>
