@@ -1,0 +1,2178 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberOps | Security Center</title>
+<script>document.documentElement.classList.add('js', 'booting');</script>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #0a0f19;
+    color: #e5eaf3;
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 235px;
+    background: #0d1421;
+    border-right: 1px solid #202a3b;
+    padding: 28px 16px;
+    flex-shrink: 0;
+}
+
+.brand {
+    font-size: 21px;
+    font-weight: bold;
+    padding: 0 10px 35px;
+}
+
+.brand span {
+    color: #38bdf8;
+}
+
+.small-title {
+    color: #66758b;
+    font-size: 10px;
+    letter-spacing: 2px;
+    padding: 0 12px;
+    margin-bottom: 13px;
+}
+
+.nav-btn {
+    display: block;
+    width: 100%;
+    padding: 13px 12px;
+    margin-bottom: 6px;
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    color: #9caac0;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.nav-btn:hover,
+.nav-btn.active {
+    background: #17263a;
+    color: #54c8ff;
+}
+
+.sidebar-bottom {
+    margin-top: 45px;
+    padding: 15px 10px;
+    border-top: 1px solid #202a3b;
+    color: #8290a5;
+    font-size: 12px;
+    line-height: 2;
+}
+
+.main {
+    flex: 1;
+    min-width: 0;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 22px 30px;
+    border-bottom: 1px solid #202a3b;
+}
+
+.topbar p {
+    color: #8492a8;
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+}
+
+.avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 10px;
+    background: #16314a;
+    display: grid;
+    place-items: center;
+    color: #58caff;
+    font-weight: bold;
+}
+
+.content {
+    padding: 30px;
+    max-width: 1450px;
+    margin: auto;
+}
+
+.eyebrow {
+    color: #38bdf8;
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+
+h1 {
+    font-size: 29px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #8593a9;
+    line-height: 1.7;
+    font-size: 14px;
+}
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #102a25;
+    color: #5ee0a0;
+    border: 1px solid #1c493d;
+    border-radius: 20px;
+    padding: 8px 12px;
+    font-size: 11px;
+    margin-top: 18px;
+}
+
+.dot {
+    width: 7px;
+    height: 7px;
+    background: #4ade80;
+    border-radius: 50%;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin: 28px 0;
+}
+
+.stat, .panel, .feature-card {
+    background: #101827;
+    border: 1px solid #202d40;
+    border-radius: 11px;
+}
+
+.stat {
+    padding: 20px;
+}
+
+.stat-label {
+    color: #8a99af;
+    font-size: 12px;
+}
+
+.stat-number {
+    font-size: 29px;
+    font-weight: bold;
+    margin: 17px 0 10px;
+}
+
+.stat-note {
+    color: #8a99af;
+    font-size: 11px;
+}
+
+.blue { color: #38bdf8; }
+.red { color: #fb7185; }
+.yellow { color: #fbbf24; }
+.green { color: #4ade80; }
+
+.grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(260px, 1fr);
+    gap: 18px;
+}
+
+.panel {
+    padding: 22px;
+    margin-bottom: 18px;
+}
+
+.panel-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.panel-head h3 {
+    font-size: 15px;
+}
+
+.muted {
+    color: #8190a7;
+    font-size: 11px;
+}
+
+.chart {
+    height: 180px;
+    display: flex;
+    align-items: end;
+    gap: 12px;
+    padding: 10px 5px 0;
+    border-bottom: 1px solid #283447;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 43px,
+        #1d2939 44px
+    );
+}
+
+.bar-wrap {
+    height: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    gap: 8px;
+}
+
+.bar {
+    width: 65%;
+    max-width: 32px;
+    border-radius: 4px 4px 0 0;
+    background: linear-gradient(to top, #087eae, #38bdf8);
+}
+
+.bar-wrap span {
+    color: #8190a7;
+    font-size: 10px;
+    padding-bottom: 8px;
+}
+
+.legend {
+    color: #8190a7;
+    font-size: 11px;
+    margin-top: 15px;
+}
+
+.legend span {
+    color: #38bdf8;
+    margin-right: 6px;
+}
+
+.severity-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 22px 0 9px;
+    font-size: 12px;
+}
+
+.track {
+    height: 6px;
+    background: #263246;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.fill {
+    height: 100%;
+    border-radius: 10px;
+}
+
+.alert {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 0;
+    border-bottom: 1px solid #202a3b;
+}
+
+.alert:last-child {
+    border-bottom: 0;
+}
+
+.alert-icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 9px;
+    display: grid;
+    place-items: center;
+    background: #29202b;
+    color: #fb7185;
+    flex-shrink: 0;
+}
+
+.alert-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.alert-info strong {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.alert-info small {
+    color: #8190a7;
+    font-size: 10px;
+}
+
+.badge {
+    color: #fb7185;
+    background: #321d28;
+    border-radius: 5px;
+    padding: 6px 8px;
+    font-size: 10px;
+}
+
+.features {
+    margin-top: 15px;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 18px;
+}
+
+.feature-card {
+    padding: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.feature-card:hover {
+    border-color: #38bdf8;
+    transform: translateY(-3px);
+}
+
+.feature-icon {
+    font-size: 23px;
+    margin-bottom: 17px;
+}
+
+.feature-card h3 {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.feature-card p {
+    color: #8795aa;
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+.feature-card button, .feature-action {
+    margin-top: 17px;
+    border: 0;
+    background: transparent;
+    color: #38bdf8;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.notice {
+    display: none;
+    margin-top: 20px;
+    padding: 18px;
+    border: 1px solid #24516b;
+    border-radius: 9px;
+    background: #102033;
+    color: #b8dff5;
+    line-height: 1.7;
+    font-size: 13px;
+}
+
+footer {
+    color: #64748b;
+    font-size: 11px;
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid #202a3b;
+}
+
+@media (max-width: 1000px) {
+    .stats, .feature-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 650px) {
+    .layout {
+        display: block;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 18px 12px;
+    }
+
+    .brand {
+        padding-bottom: 18px;
+    }
+
+    .small-title, .sidebar-bottom {
+        display: none;
+    }
+
+    .nav-btn {
+        display: inline-block;
+        width: auto;
+        margin: 0 3px 4px 0;
+        padding: 10px;
+    }
+
+    .topbar {
+        padding: 18px;
+    }
+
+    .content {
+        padding: 20px 15px;
+    }
+
+    .stats {
+        gap: 10px;
+    }
+
+    .stat {
+        padding: 14px;
+    }
+
+    .stat-number {
+        font-size: 24px;
+    }
+
+    h1 {
+        font-size: 25px;
+    }
+
+    .feature-grid {
+        gap: 10px;
+    }
+
+    .feature-card {
+        padding: 14px;
+    }
+}
+#networkLab {
+  color: #e8eefc;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px !important;
+}
+
+#networkLab h2 {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+#networkLab > p {
+  color: #9caecc;
+  margin-bottom: 24px;
+}
+
+#networkLab > div {
+  background: #111b2e !important;
+  border: 1px solid #293750;
+  border-radius: 16px !important;
+  padding: 24px !important;
+  max-width: 650px;
+}
+
+#networkLab h3 {
+  margin-bottom: 18px;
+}
+
+#networkLab label {
+  display: block;
+  color: #b8c7df;
+  margin-bottom: 8px;
+}
+
+#networkLab input,
+#networkLab select {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  background: #0b1220;
+  color: #e8eefc;
+  border: 1px solid #344563;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 18px;
+}
+
+#networkLab button {
+  background: #3978f6;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+#networkLab button:hover {
+  background: #2563eb;
+}
+
+#networkResult {
+  margin-top: 16px;
+  color: #70e1ad;
+}
+
+#incidentResponse {
+  color: #e8eefc;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px !important;
+}
+
+#incidentResponse > h2 {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+#incidentResponse > p {
+  color: #9caecc;
+  margin-bottom: 24px;
+}
+
+.incident-panel {
+  background: #111b2e;
+  border: 1px solid #293750;
+  border-radius: 16px;
+  padding: 24px;
+  margin: 20px 0;
+  max-width: 700px;
+}
+
+.incident-panel h3 {
+  margin-bottom: 20px;
+}
+
+.incident-panel label {
+  display: block;
+  color: #b8c7df;
+  margin: 16px 0 8px;
+}
+
+.incident-panel input,
+.incident-panel select,
+.incident-panel textarea {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  background: #0b1220;
+  color: #e8eefc;
+  border: 1px solid #344563;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
+  font: inherit;
+}
+
+.incident-panel textarea {
+  resize: vertical;
+}
+
+.incident-panel button {
+  background: #3978f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 18px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.incident-panel button:hover {
+  background: #2563eb;
+}
+
+#incidentList > div {
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+
+#incidentMessage {
+  margin-top: 12px;
+}
+
+</style>
+<style>
+:root {
+    color-scheme: dark;
+    --ink: #e7efff;
+    --muted-ink: #8b9bb6;
+    --line: rgba(118, 153, 208, .18);
+    --cyan: #55e4ff;
+    --blue: #5791ff;
+    --violet: #a77bff;
+    --surface: rgba(16, 25, 43, .78);
+    --surface-raised: rgba(20, 32, 54, .9);
+}
+
+html { background: #060913; scroll-behavior: smooth; }
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    color: var(--ink);
+    background:
+        radial-gradient(ellipse at 76% 8%, rgba(46, 93, 182, .16), transparent 38rem),
+        radial-gradient(ellipse at 10% 78%, rgba(104, 58, 164, .12), transparent 34rem),
+        #080c16;
+}
+body::before, body::after {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: auto;
+    content: "";
+}
+body::before {
+    opacity: .38;
+    background:
+        radial-gradient(ellipse at 50% 0%, rgba(48, 131, 211, .19), transparent 52%),
+        radial-gradient(circle at 88% 72%, rgba(120, 75, 206, .13), transparent 32%);
+    filter: saturate(1.2);
+    animation: ambient-drift 18s ease-in-out infinite alternate;
+}
+body::after {
+    opacity: .12;
+    background-image: linear-gradient(rgba(107, 156, 226, .16) 1px, transparent 1px), linear-gradient(90deg, rgba(107, 156, 226, .16) 1px, transparent 1px);
+    background-size: 58px 58px;
+    mask-image: linear-gradient(to bottom, black, transparent 78%);
+}
+
+.layout { position: relative; z-index: 1; isolation: isolate; }
+.sidebar {
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(14, 21, 36, .96), rgba(10, 15, 27, .94));
+    border-right-color: var(--line);
+    box-shadow: 18px 0 55px rgba(0, 0, 0, .16);
+}
+.brand { letter-spacing: -.6px; }
+.brand::first-letter { color: var(--cyan); }
+.brand span { color: var(--cyan); text-shadow: 0 0 22px rgba(85, 228, 255, .48); }
+.small-title { color: #7086a8; }
+.nav-btn {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid transparent;
+    transition: color .24s ease, background .24s ease, border-color .24s ease, transform .24s ease;
+}
+.nav-btn::after {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 2px;
+    content: "";
+    background: linear-gradient(var(--cyan), var(--violet));
+    transform: scaleY(0);
+    transition: transform .25s ease;
+}
+.nav-btn:hover { transform: translateX(3px); background: rgba(43, 68, 105, .32); }
+.nav-btn.active {
+    color: #8beaff;
+    border-color: rgba(95, 185, 255, .13);
+    background: linear-gradient(105deg, rgba(38, 75, 118, .43), rgba(23, 37, 63, .48));
+    box-shadow: inset 0 0 28px rgba(65, 151, 224, .07), 0 6px 24px rgba(0, 0, 0, .16);
+}
+.nav-btn.active::after { transform: scaleY(1); }
+.sidebar-bottom { border-color: var(--line); }
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    backdrop-filter: blur(18px);
+    background: rgba(10, 15, 26, .75);
+    border-color: var(--line);
+}
+.topbar strong { letter-spacing: .15px; }
+.avatar {
+    border: 1px solid rgba(91, 202, 255, .25);
+    background: linear-gradient(145deg, rgba(32, 93, 131, .65), rgba(49, 43, 105, .7));
+    box-shadow: 0 0 26px rgba(46, 158, 226, .15);
+}
+.content { position: relative; }
+.eyebrow { color: var(--cyan); text-shadow: 0 0 18px rgba(85, 228, 255, .35); }
+h1 { letter-spacing: -.8px; }
+.subtitle { color: #9aaac3; }
+.status { background: rgba(16, 57, 50, .46); box-shadow: 0 0 25px rgba(61, 227, 166, .06); }
+.dot { box-shadow: 0 0 12px #4ade80; animation: status-pulse 2s ease-in-out infinite; }
+.stat, .panel, .feature-card {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(145deg, rgba(22, 33, 54, .88), rgba(14, 22, 38, .86));
+    border-color: var(--line);
+    box-shadow: 0 14px 42px rgba(0, 0, 0, .14), inset 0 1px rgba(255, 255, 255, .025);
+    backdrop-filter: blur(10px);
+}
+.stat::before, .panel::before, .feature-card::before {
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 48%;
+    height: 1px;
+    content: "";
+    background: linear-gradient(90deg, transparent, rgba(97, 222, 255, .62), transparent);
+    transition: left .7s cubic-bezier(.2, .8, .2, 1);
+}
+.stat:hover::before, .panel:hover::before, .feature-card:hover::before { left: 130%; }
+.stat { transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease; }
+.stat:hover { transform: translateY(-4px); border-color: rgba(85, 228, 255, .3); box-shadow: 0 18px 38px rgba(0, 0, 0, .25), 0 0 28px rgba(51, 156, 229, .08); }
+.panel { transition: border-color .3s ease, transform .3s ease; }
+.panel:hover { border-color: rgba(112, 157, 232, .3); }
+.feature-card { transition: transform .3s cubic-bezier(.2, .8, .2, 1), border-color .3s ease, box-shadow .3s ease; }
+.feature-card:hover { transform: translateY(-6px); border-color: rgba(85, 228, 255, .44); box-shadow: 0 20px 40px rgba(0, 0, 0, .25), 0 0 30px rgba(75, 125, 234, .12); }
+.feature-icon { color: var(--cyan); filter: drop-shadow(0 0 10px rgba(85, 228, 255, .38)); }
+.chart { border-color: var(--line); }
+.bar { position: relative; overflow: hidden; background: linear-gradient(to top, #176cae, #50dfff 72%, #9aebff); box-shadow: 0 0 18px rgba(47, 177, 255, .15); transform-origin: bottom; animation: bar-rise .9s cubic-bezier(.16, 1, .3, 1) both; }
+.bar-wrap:nth-child(2) .bar { animation-delay: .06s; }
+.bar-wrap:nth-child(3) .bar { animation-delay: .12s; }
+.bar-wrap:nth-child(4) .bar { animation-delay: .18s; }
+.bar-wrap:nth-child(5) .bar { animation-delay: .24s; }
+.bar-wrap:nth-child(6) .bar { animation-delay: .3s; }
+.bar-wrap:nth-child(7) .bar { animation-delay: .36s; }
+.fill { box-shadow: 0 0 12px currentColor; transform-origin: left; animation: fill-in 1s cubic-bezier(.16, 1, .3, 1) both; }
+.alert { transition: background .25s ease, padding .25s ease; }
+.alert:hover { padding-right: 10px; padding-left: 10px; background: rgba(70, 101, 151, .08); }
+.alert-icon { box-shadow: inset 0 0 15px rgba(255, 114, 146, .08); }
+.badge { border: 1px solid rgba(255, 113, 145, .12); }
+button, a, [role="button"] { -webkit-tap-highlight-color: transparent; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, [tabindex="0"]:focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 3px;
+}
+#networkLab > div, .incident-panel, #threatSimulation > div {
+    background: linear-gradient(145deg, rgba(22, 34, 57, .92), rgba(14, 22, 39, .9)) !important;
+    border-color: var(--line) !important;
+    box-shadow: 0 18px 52px rgba(0, 0, 0, .2);
+}
+#networkLab input, #networkLab select, .incident-panel input, .incident-panel select, .incident-panel textarea, #threatType {
+    border-color: rgba(119, 154, 208, .24) !important;
+    background: rgba(7, 12, 23, .82) !important;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+#networkLab input:focus, #networkLab select:focus, .incident-panel input:focus, .incident-panel select:focus, .incident-panel textarea:focus, #threatType:focus {
+    border-color: rgba(85, 228, 255, .65) !important;
+    box-shadow: 0 0 0 3px rgba(85, 228, 255, .09);
+}
+#networkLab button, .incident-panel button, #threatSimulation button {
+    background: linear-gradient(110deg, #147bb7, #526bf5 68%, #795ce5) !important;
+    box-shadow: 0 8px 22px rgba(62, 112, 231, .2);
+    transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+}
+#networkLab button:hover, .incident-panel button:hover, #threatSimulation button:hover { transform: translateY(-2px); filter: brightness(1.15); box-shadow: 0 12px 27px rgba(62, 112, 231, .32); }
+.notice { border-color: rgba(85, 228, 255, .28); background: rgba(16, 32, 55, .78); }
+footer { border-color: var(--line); }
+
+.section-enter { animation: section-arrive .56s cubic-bezier(.16, 1, .3, 1) both; }
+.section-enter .stat, .section-enter .panel, .section-enter .incident-panel, .section-enter > div:not(.eyebrow) {
+    animation: content-arrive .65s cubic-bezier(.16, 1, .3, 1) both;
+}
+.section-enter .stat:nth-child(2), .section-enter .panel:nth-child(2) { animation-delay: .07s; }
+.section-enter .stat:nth-child(3), .section-enter .panel:nth-child(3) { animation-delay: .13s; }
+.section-enter .stat:nth-child(4) { animation-delay: .19s; }
+
+.transition-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    place-items: center;
+    overflow: hidden;
+    background: transparent;
+    pointer-events: none;
+}
+html.js .transition-overlay { display: grid; }
+.transition-aperture {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 150vmax;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background:
+        radial-gradient(ellipse at center, rgba(38, 83, 151, .24), transparent 38%),
+        linear-gradient(rgba(92, 144, 212, .09) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(92, 144, 212, .09) 1px, transparent 1px),
+        #03050a;
+    background-size: auto, 48px 48px, 48px 48px, auto;
+    transform: translate3d(-50%, -50%, 0) scale(0);
+    transform-origin: center;
+    backface-visibility: hidden;
+    transition: transform .82s cubic-bezier(.65, 0, .35, 1);
+}
+.transition-wordmark {
+    position: relative;
+    z-index: 1;
+    color: #f2f7ff;
+    font: 800 clamp(3.5rem, 12vw, 8.5rem)/1 Arial, sans-serif;
+    letter-spacing: -.085em;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    width: min(78vw, 7.5em);
+    opacity: 0;
+    transform: scale(.72);
+    text-shadow: 0 0 28px rgba(83, 220, 255, .22), 0 0 80px rgba(89, 112, 255, .2);
+    will-change: transform, opacity;
+}
+.wordmark-side:first-child { text-align: right; }
+.wordmark-side:last-child { text-align: left; }
+.transition-wordmark .wordmark-o {
+    display: inline-block;
+    color: var(--cyan);
+    letter-spacing: -.065em;
+    text-shadow: 0 0 20px rgba(85, 228, 255, .8), 0 0 65px rgba(85, 228, 255, .44);
+}
+.transition-overlay.logo-arrive .transition-wordmark { opacity: 1; transform: scale(1); transition: transform .36s cubic-bezier(.16, 1, .3, 1), opacity .2s ease; }
+.transition-overlay.cover .transition-aperture { transform: translate3d(-50%, -50%, 0) scale(1); }
+.transition-overlay.reveal .transition-aperture { transform: translate3d(-50%, -50%, 0) scale(0); transition-duration: 1.04s; }
+.transition-overlay.reveal .transition-wordmark { opacity: 0; transform: scale(3.4); transition: transform .9s cubic-bezier(.65, 0, .35, 1), opacity .52s ease .12s; }
+html.js.booting body { overflow: hidden; }
+html.js.booting .transition-overlay { background: #03050a; }
+
+.login-screen {
+    position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 24px;
+    background: radial-gradient(ellipse at 50% 35%, rgba(38, 86, 155, .22), transparent 37rem), rgba(6, 9, 17, .97);
+}
+.login-card { width: min(440px, 100%); padding: 34px; border: 1px solid rgba(125, 165, 224, .22); border-radius: 22px; background: linear-gradient(145deg, rgba(20, 32, 55, .96), rgba(11, 18, 32, .97)); box-shadow: 0 30px 90px rgba(0,0,0,.4), inset 0 1px rgba(255,255,255,.04); }
+.login-brand { color: var(--cyan); font-size: 12px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+.login-card h1 { margin: 18px 0 7px; font-size: 27px; }
+.login-card > p { margin-bottom: 23px; color: var(--muted-ink); font-size: 13px; line-height: 1.65; }
+.login-card label, .form-grid label { display: block; margin: 15px 0 7px; color: #b6c5dd; font-size: 12px; }
+.login-card input, .login-card select, .form-grid input, .form-grid select, .form-grid textarea {
+    width: 100%; min-height: 43px; padding: 11px 12px; border: 1px solid rgba(119, 154, 208, .24); border-radius: 9px;
+    color: var(--ink); background: rgba(7, 12, 23, .84); font: inherit; font-size: 13px;
+}
+.password-field { position: relative; }
+.password-field input { padding-right: 54px; }
+.login-card .password-toggle {
+    position: absolute; top: 50%; right: 7px; display: grid; place-items: center; width: 38px; height: 36px; min-height: 36px;
+    margin: 0 !important; padding: 4px; transform: translateY(-50%); border: 0 !important; border-radius: 8px !important;
+    color: #8fdcf2 !important; background: transparent !important; box-shadow: none !important; cursor: pointer;
+}
+.login-card .password-toggle:hover { transform: translateY(-50%) !important; filter: none !important; background: rgba(85, 228, 255, .1) !important; }
+.login-card .password-toggle:focus-visible { outline: 2px solid var(--cyan); outline-offset: 1px; }
+.login-card .password-toggle svg { width: 34px; height: 34px; overflow: visible; }
+.login-card .password-toggle .cat-face, .login-card .password-toggle .cat-eye, .login-card .password-toggle .cat-whiskers, .login-card .password-toggle .cat-paws { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.login-card .password-toggle .cat-eye, .login-card .password-toggle .cat-paws { transition: opacity .16s ease, transform .2s ease; transform-origin: center; }
+.login-card .password-toggle .cat-paws { fill: #111b2c; stroke-width: 1.7; }
+.login-card .password-toggle .cat-paw-detail { fill: none; stroke: #f2a6c6; stroke-width: 1.1; stroke-linecap: round; }
+.login-card .password-toggle .cat-inner-ear { fill: none; stroke: #f2a6c6; stroke-width: 1.1; stroke-linecap: round; }
+.login-card .password-toggle .cat-nose { fill: #f2a6c6; stroke: currentColor; stroke-width: .8; }
+.login-card .password-toggle .cat-pupil { fill: currentColor; stroke: none; }
+.login-card .password-toggle[aria-pressed="false"] .cat-eye { opacity: 0; }
+.login-card .password-toggle[aria-pressed="true"] .cat-paws { opacity: 0; transform: translateY(-9px); }
+.login-card .password-toggle[aria-pressed="true"] .cat-eye { opacity: 1; }
+.login-card .password-toggle::after {
+    content: attr(data-tooltip); position: absolute; right: -2px; bottom: calc(100% + 8px); z-index: 30; width: max-content;
+    padding: 6px 9px; border: 1px solid rgba(125, 165, 224, .28); border-radius: 7px; color: #eaf4ff;
+    background: #111b2c; box-shadow: 0 8px 20px rgba(0, 0, 0, .35); font-family: inherit; font-size: 11px; font-weight: 500; line-height: 1.2; pointer-events: none;
+    opacity: 0; transform: translateY(3px); transition: opacity .12s ease, transform .12s ease;
+}
+.login-card .password-toggle:hover::after, .login-card .password-toggle:focus-visible::after { opacity: 1; transform: translateY(0); }
+.login-card button, .action-button {
+    min-height: 42px; padding: 10px 14px; border: 1px solid rgba(126, 205, 255, .22); border-radius: 9px;
+    color: #f1f7ff; background: linear-gradient(110deg, #147bb7, #526bf5 68%, #795ce5); font-weight: 700; cursor: pointer;
+    box-shadow: 0 8px 22px rgba(62, 112, 231, .18); transition: transform .2s ease, filter .2s ease;
+}
+.login-card button { width: 100%; margin-top: 20px; }
+.login-card button:hover, .action-button:hover { transform: translateY(-2px); filter: brightness(1.12); }
+.login-card .password-toggle { width: 42px; min-height: 40px; margin: 0 !important; padding: 2px; border: 0; border-radius: 8px; color: #8fdcf2; background: transparent; box-shadow: none; }
+.auth-mode-switch { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 5px 8px; margin-top: 17px; color: #aebdd3; font-size: 13px; }
+.auth-mode-switch button { width: auto; min-height: 0; margin: 0; padding: 4px; border: 0; color: var(--cyan); background: transparent; box-shadow: none; font: inherit; font-weight: 700; cursor: pointer; }
+.auth-mode-switch button:hover { color: #d7fbff; text-decoration: underline; transform: none; filter: none; }
+#signupEmailField[hidden], #signupConfirmField[hidden] { display: none !important; }
+.secondary-button { color: #dbe8ff; background: rgba(34, 50, 77, .7); box-shadow: none; }
+.danger-button { background: linear-gradient(110deg, #923452, #b34e6d); }
+.form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-items: end; }
+.form-grid .full { grid-column: 1 / -1; }
+.form-grid label { margin: 0 0 7px; }
+.form-grid button { width: fit-content; }
+.api-note, .empty-state, .inline-message { color: var(--muted-ink); font-size: 12px; line-height: 1.6; }
+.inline-message { min-height: 1.5em; margin-top: 10px; }
+.inline-message.error { color: #ff98ad; }
+.inline-message.success { color: #73e7b0; }
+.data-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 14px 0; }
+.data-toolbar select, .form-grid select { min-width: 180px; }
+.data-list { display: grid; gap: 10px; }
+.data-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 14px; border: 1px solid var(--line); border-radius: 11px; background: rgba(14, 22, 38, .72); }
+.data-row-main { min-width: 0; }
+.data-row strong { display: block; overflow-wrap: anywhere; font-size: 13px; }
+.data-row small { display: block; margin-top: 5px; color: var(--muted-ink); font-size: 11px; overflow-wrap: anywhere; }
+.data-row-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 7px; }
+.data-row-actions .action-button { min-height: 32px; padding: 6px 9px; font-size: 11px; }
+.action-button:disabled, button:disabled { opacity: .45; cursor: not-allowed; transform: none !important; filter: none !important; }
+.pill { display: inline-flex; align-items: center; padding: 5px 8px; border: 1px solid var(--line); border-radius: 999px; color: #bbd4f3; background: rgba(57, 87, 135, .2); font-size: 10px; white-space: nowrap; }
+.pill.good { color: #6de8b0; border-color: rgba(109,232,176,.2); }
+.pill.warn { color: #ffd278; border-color: rgba(255,210,120,.2); }
+.pill.bad { color: #ff91a8; border-color: rgba(255,145,168,.2); }
+.data-table-wrap { overflow-x: auto; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.data-table th, .data-table td { padding: 11px 9px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.data-table th { color: #8fa3c3; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
+.data-table td { color: #d3ddef; }
+.data-table td .action-button { min-height: 30px; padding: 5px 8px; font-size: 10px; }
+.topbar-tools { display: flex; align-items: center; gap: 9px; }
+.topbar-tools button { padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; color: #bbd4f3; background: rgba(22, 34, 55, .72); cursor: pointer; }
+.loading-line { height: 2px; overflow: hidden; background: transparent; }
+.loading-line::after { display: block; width: 35%; height: 100%; content: ""; background: linear-gradient(90deg, transparent, var(--cyan), var(--violet), transparent); animation: loading-sweep 1.2s ease-in-out infinite; }
+@keyframes loading-sweep { from { transform: translateX(-110%); } to { transform: translateX(320%); } }
+
+@keyframes ambient-drift { from { transform: translate3d(-1%, -1%, 0) scale(1); } to { transform: translate3d(1.5%, 1%, 0) scale(1.05); } }
+@keyframes status-pulse { 50% { opacity: .55; box-shadow: 0 0 4px #4ade80; } }
+@keyframes bar-rise { from { transform: scaleY(.05); opacity: .35; } to { transform: scaleY(1); opacity: 1; } }
+@keyframes fill-in { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes section-arrive { from { opacity: .35; } to { opacity: 1; } }
+@keyframes content-arrive { from { opacity: 0; transform: translateY(13px) scale(.99); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+@media (max-width: 650px) {
+    .sidebar { box-shadow: 0 12px 30px rgba(0, 0, 0, .18); }
+    .nav-btn:hover { transform: translateY(-2px); }
+    .topbar { position: relative; }
+    .profile { flex-wrap: wrap; justify-content: flex-end; gap: 7px; }
+    .topbar-tools { width: 100%; justify-content: flex-end; }
+    .feature-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    #networkLab, #incidentResponse { padding: 20px 15px !important; }
+    .data-row { align-items: flex-start; flex-direction: column; }
+    .data-row-actions { justify-content: flex-start; width: 100%; }
+    .form-grid { grid-template-columns: 1fr; }
+    .form-grid .full { grid-column: auto; }
+}
+@media (max-width: 390px) {
+    .feature-grid, .stats { grid-template-columns: 1fr; }
+    .profile span { font-size: 11px; }
+    .chart { gap: 5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    body::before { animation: none; }
+    .transition-overlay.reveal .transition-wordmark { transform: scale(1.5); transition: transform .18s ease-out, opacity .1s ease; }
+}
+</style>
+<style id="cyber-layout-polish">
+:root {
+    --cyan: #55f0ff;
+    --blue: #4b9dff;
+    --violet: #bd78ff;
+    --lime: #a8ff78;
+    --line: rgba(107, 177, 226, .2);
+}
+
+body {
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+    background:
+        radial-gradient(ellipse at 75% 8%, rgba(24, 138, 190, .14), transparent 42rem),
+        radial-gradient(ellipse at 12% 76%, rgba(117, 65, 190, .13), transparent 38rem),
+        #080d18;
+}
+
+.layout { min-height: 100vh; }
+.sidebar {
+    position: sticky;
+    top: 0;
+    width: clamp(215px, 17vw, 270px);
+    height: 100vh;
+    padding: 28px 16px 18px;
+    background: linear-gradient(180deg, rgba(12, 20, 36, .98), rgba(7, 13, 26, .98));
+    border-right: 1px solid rgba(85, 228, 255, .16);
+}
+.brand { font-size: 23px; padding-bottom: 42px; }
+.brand::first-letter { color: var(--cyan); }
+.small-title { color: #8292ad; font-size: 10px; letter-spacing: .2em; }
+.sidebar-bottom { margin-top: 38px; color: #9aa9c1; font-size: 12px; }
+.nav-btn {
+    min-height: 44px;
+    margin-bottom: 7px;
+    padding: 12px 13px;
+    border-radius: 10px;
+    font-size: 14px;
+    letter-spacing: .01em;
+}
+.nav-btn:active { transform: scale(.975); }
+.nav-btn:hover { color: #e3fbff; }
+.nav-btn.active { color: #d8fbff; }
+
+.main { min-width: 0; }
+.topbar { padding: 20px clamp(20px, 3vw, 42px); }
+.topbar strong { font-size: 16px; }
+.topbar p { font-size: 13px; }
+.content {
+    width: 100%;
+    max-width: 1680px;
+    padding: clamp(24px, 3vw, 44px);
+}
+.eyebrow { font-size: 11px; letter-spacing: .19em; }
+h1 { font-size: clamp(27px, 2.4vw, 36px); }
+.subtitle, #networkLab > p, #incidentResponse > p, #threatSimulation > p, #accessControl > p {
+    max-width: 78ch;
+    color: #aab8cc;
+    font-size: 14px;
+    line-height: 1.75;
+}
+
+.stat, .panel, .feature-card, .incident-panel {
+    border-radius: 15px;
+    border-color: rgba(107, 177, 226, .2);
+}
+.stat-label, .stat-note, .muted, .data-table th { color: #a2b1c8; }
+.panel-head h3, .incident-panel h3 { font-size: 16px; letter-spacing: .01em; }
+.status { border-color: rgba(80, 238, 180, .25); }
+.dot { background: #5dffb3; }
+
+/* The full-width workspace prevents forms and selects from colliding in Network Lab. */
+#networkLab, #incidentResponse, #threatSimulation, #accessControl {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: clamp(18px, 2.4vw, 34px) !important;
+}
+#networkLab > div, #incidentResponse > div, #threatSimulation > div, #accessControl > div {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+}
+#networkLab > .grid, #threatSimulation > .grid, #incidentResponse > .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 18px;
+}
+#networkLab .incident-panel, #incidentResponse .incident-panel, #threatSimulation .incident-panel, #accessControl .incident-panel {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    margin: 0 0 18px;
+    padding: clamp(18px, 2vw, 26px);
+}
+#networkLab .form-grid, #incidentResponse .form-grid, #threatSimulation .form-grid, #accessControl .form-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+#networkLab input, #networkLab select, #networkLab textarea,
+.incident-panel input, .incident-panel select, .incident-panel textarea {
+    min-width: 0;
+    min-height: 44px;
+    margin-bottom: 0;
+    color: #eaf6ff;
+    font: inherit;
+    font-size: 13px;
+}
+#networkLab label, .incident-panel label, .form-grid label {
+    color: #c0cee2;
+    font-size: 13px;
+    line-height: 1.45;
+}
+#networkLab button, .incident-panel button, #threatSimulation button {
+    min-height: 42px;
+    padding: 10px 15px;
+    white-space: normal;
+}
+.action-button { font-size: 13px; }
+.data-toolbar label { color: #c0cee2; font-size: 13px; }
+.data-toolbar select { min-width: min(260px, 100%); }
+
+.feature-grid { gap: 18px; }
+.feature-card { min-height: 180px; padding: 23px; }
+.feature-card h3 { color: #e9f4ff; }
+.feature-card p { color: #a8b7cd; font-size: 13px; line-height: 1.65; }
+.feature-action { color: var(--cyan); }
+button, .feature-card, .nav-btn { touch-action: manipulation; }
+
+/* Keep the full-screen aperture on a steady timeline and avoid competing background motion. */
+.transition-overlay {
+    contain: paint;
+    clip-path: none !important;
+    background: transparent;
+}
+.transition-overlay.cover .transition-aperture { transform: translate3d(-50%, -50%, 0) scale(1); }
+.transition-overlay.reveal .transition-aperture { transform: translate3d(-50%, -50%, 0) scale(0); transition: transform 1.04s cubic-bezier(.65, 0, .35, 1); }
+.transition-overlay.logo-arrive .transition-wordmark {
+    transition: transform .48s cubic-bezier(.22, 1, .36, 1), opacity .28s ease;
+}
+.transition-overlay.reveal .transition-wordmark {
+    transform: scale(3.4);
+    transition: transform .9s cubic-bezier(.65, 0, .35, 1), opacity .52s ease .12s;
+}
+html.transitioning body::before { animation-play-state: paused; }
+html.transitioning body { overflow: hidden; }
+html.transitioning .transition-aperture { will-change: transform; }
+html.transitioning .stat, html.transitioning .panel, html.transitioning .feature-card { backdrop-filter: none; }
+.section-enter { animation-duration: .64s; }
+.section-enter .stat, .section-enter .panel, .section-enter .incident-panel, .section-enter > div:not(.eyebrow) { animation-duration: .72s; }
+
+@media (max-width: 900px) {
+    .sidebar { width: 220px; }
+    .content { padding: 26px 22px; }
+    #networkLab > .grid, #threatSimulation > .grid, #incidentResponse > .grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 650px) {
+    .sidebar { position: relative; width: 100%; height: auto; padding: 18px 12px 12px; }
+    .brand { padding-bottom: 17px; }
+    .nav-btn { min-height: 40px; }
+    .content { padding: 21px 15px; }
+    .topbar { gap: 12px; padding: 15px; }
+    #networkLab, #incidentResponse, #threatSimulation, #accessControl { padding: 19px 14px !important; }
+    #networkLab .form-grid, #incidentResponse .form-grid, #threatSimulation .form-grid, #accessControl .form-grid { grid-template-columns: 1fr; }
+    #networkLab .form-grid .full, #incidentResponse .form-grid .full, #threatSimulation .form-grid .full, #accessControl .form-grid .full { grid-column: auto; }
+    .profile { max-width: 58%; }
+}
+</style>
+</head>
+
+<body>
+<div class="transition-overlay" id="transitionOverlay" aria-hidden="true">
+    <div class="transition-aperture"></div>
+    <div class="transition-wordmark"><span class="wordmark-side">C.</span><span class="wordmark-o">O</span><span class="wordmark-side">ps</span></div>
+</div>
+<section class="login-screen" id="loginGate" aria-labelledby="loginTitle">
+    <form class="login-card" id="loginForm">
+        <div class="login-brand">C.Ops · Secure Access</div>
+        <h1 id="loginTitle">Welcome back, analyst.</h1>
+        <p id="authDescription">Sign in to load your live CyberOps workspace. Access is validated by the backend.</p>
+        <label for="apiBase">Backend API address</label>
+        <input id="apiBase" name="apiBase" value="http://localhost:8080/api/v1" autocomplete="url" required>
+        <label for="loginUsername">Username</label>
+        <input id="loginUsername" name="username" autocomplete="username" maxlength="80" required>
+        <div id="signupEmailField" hidden>
+            <label for="signupEmail">Email</label>
+            <input id="signupEmail" name="email" type="email" autocomplete="email" maxlength="254">
+        </div>
+        <div id="signupRoleField" hidden>
+            <label for="signupRole">Workspace role</label>
+            <select id="signupRole" name="role">
+                <option value="ANALYST">Analyst</option>
+                <option value="DEFENDER">Defender</option>
+            </select>
+        </div>
+        <label for="loginPassword">Password</label>
+        <div class="password-field">
+            <input id="loginPassword" name="password" type="password" autocomplete="current-password" maxlength="100" required>
+            <button class="password-toggle" type="button" data-password-for="loginPassword" data-tooltip="Show password" aria-label="Show password" aria-pressed="false">
+                <svg viewBox="0 0 32 32" aria-hidden="true">
+                    <path class="cat-face" d="M7 13C5 10 5 6 6.5 4.5c2.8.7 4.4 2.1 6.3 4 2-.7 4.4-.8 6.4 0 1.9-1.9 3.5-3.3 6.3-4C27 6 27 10 25 13c2.7 3.3 2.8 8.1.4 11.3C23 27.6 20 29 16 29s-7-1.4-9.4-4.7C4.2 21.1 4.3 16.3 7 13Z"/>
+                    <path class="cat-inner-ear" d="m8 9 3.1 2.1M24 9l-3.1 2.1"/>
+                    <g class="cat-eye"><path d="M9.2 16.3c.5-2 2-3.1 3.5-2.7 1.6.3 2.4 2 2.1 3.8-.3 1.6-1.6 2.5-3 2.2-1.7-.3-3-1.6-2.6-3.3Zm13.6 0c-.5-2-2-3.1-3.5-2.7-1.6.3-2.4 2-2.1 3.8.3 1.6 1.6 2.5 3 2.2 1.7-.3 3-1.6 2.6-3.3Z"/><circle class="cat-pupil" cx="12.5" cy="16.5" r="1.1"/><circle class="cat-pupil" cx="19.5" cy="16.5" r="1.1"/></g>
+                    <path class="cat-nose" d="m14.8 21 1.2-.7 1.2.7-1.2 1.2z"/>
+                    <path class="cat-face" d="M16 22.2v1.2c-1 .9-2 .9-2.9.1m2.9-.1c1 .9 2 .9 2.9.1"/>
+                    <path class="cat-whiskers" d="m10 21-5-1.2m5 3-5 1m17-3 5-1.2m-5 3 5 1"/>
+                    <g class="cat-paws"><path d="M5.4 17.1c-.1-1.6 1.1-2.8 2.7-3.4.8-1.8 2.7-2.1 4-.7 1.7-.3 3 1 2.8 2.6 1.2 1.3.8 3.4-.9 4.3-2.4 1.4-6.2 1.2-7.8-.2-.6-.6-.9-1.6-.8-2.6Zm21.2 0c.1-1.6-1.1-2.8-2.7-3.4-.8-1.8-2.7-2.1-4-.7-1.7-.3-3 1-2.8 2.6-1.2 1.3-.8 3.4.9 4.3 2.4 1.4 6.2 1.2 7.8-.2.6-.6.9-1.6.8-2.6Z"/><path class="cat-paw-detail" d="M7 15.7c.4-.6.9-1 1.5-1.1m2.3-.5c.5.2.9.6 1.1 1.1m12.1.5c-.4-.6-.9-1-1.5-1.1m-2.3-.5c-.5.2-.9.6-1.1 1.1"/></g>
+                </svg>
+            </button>
+        </div>
+        <div id="signupConfirmField" hidden>
+            <label for="signupPasswordConfirm">Confirm password</label>
+            <div class="password-field">
+                <input id="signupPasswordConfirm" name="passwordConfirm" type="password" autocomplete="new-password" maxlength="100">
+                <button class="password-toggle" type="button" data-password-for="signupPasswordConfirm" data-tooltip="Show password" aria-label="Show password" aria-pressed="false">
+                    <svg viewBox="0 0 32 32" aria-hidden="true">
+                        <path class="cat-face" d="M7 13C5 10 5 6 6.5 4.5c2.8.7 4.4 2.1 6.3 4 2-.7 4.4-.8 6.4 0 1.9-1.9 3.5-3.3 6.3-4C27 6 27 10 25 13c2.7 3.3 2.8 8.1.4 11.3C23 27.6 20 29 16 29s-7-1.4-9.4-4.7C4.2 21.1 4.3 16.3 7 13Z"/>
+                        <path class="cat-inner-ear" d="m8 9 3.1 2.1M24 9l-3.1 2.1"/>
+                        <g class="cat-eye"><path d="M9.2 16.3c.5-2 2-3.1 3.5-2.7 1.6.3 2.4 2 2.1 3.8-.3 1.6-1.6 2.5-3 2.2-1.7-.3-3-1.6-2.6-3.3Zm13.6 0c-.5-2-2-3.1-3.5-2.7-1.6.3-2.4 2-2.1 3.8.3 1.6 1.6 2.5 3 2.2 1.7-.3 3-1.6 2.6-3.3Z"/><circle class="cat-pupil" cx="12.5" cy="16.5" r="1.1"/><circle class="cat-pupil" cx="19.5" cy="16.5" r="1.1"/></g>
+                        <path class="cat-nose" d="m14.8 21 1.2-.7 1.2.7-1.2 1.2z"/>
+                        <path class="cat-face" d="M16 22.2v1.2c-1 .9-2 .9-2.9.1m2.9-.1c1 .9 2 .9 2.9.1"/>
+                        <path class="cat-whiskers" d="m10 21-5-1.2m5 3-5 1m17-3 5-1.2m-5 3 5 1"/>
+                        <g class="cat-paws"><path d="M5.4 17.1c-.1-1.6 1.1-2.8 2.7-3.4.8-1.8 2.7-2.1 4-.7 1.7-.3 3 1 2.8 2.6 1.2 1.3.8 3.4-.9 4.3-2.4 1.4-6.2 1.2-7.8-.2-.6-.6-.9-1.6-.8-2.6Zm21.2 0c.1-1.6-1.1-2.8-2.7-3.4-.8-1.8-2.7-2.1-4-.7-1.7-.3-3 1-2.8 2.6-1.2 1.3-.8 3.4.9 4.3 2.4 1.4 6.2 1.2 7.8-.2.6-.6.9-1.6.8-2.6Z"/><path class="cat-paw-detail" d="M7 15.7c.4-.6.9-1 1.5-1.1m2.3-.5c.5.2.9.6 1.1 1.1m12.1.5c-.4-.6-.9-1-1.5-1.1m-2.3-.5c-.5.2-.9.6-1.1 1.1"/></g>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <button id="loginSubmit" type="submit">Connect to CyberOps</button>
+        <p class="inline-message" id="loginMessage" role="status"></p>
+        <div class="auth-mode-switch"><span id="authModePrompt">New to CyberOps?</span><button id="authModeToggle" type="button" aria-pressed="false">Create an account</button></div>
+        <div class="api-note">The frontend and Java backend run separately. The backend must be running and allow this page's origin in CORS settings.</div>
+    </form>
+</section>
+<div class="layout" id="appLayout" style="display:none">
+
+    <aside class="sidebar">
+        <div class="brand">◈ Cyber<span>Ops</span></div>
+
+        <div class="small-title">WORKSPACE</div>
+
+        <button class="nav-btn active" aria-current="page" onclick="openSection('Overview', this)">▦ &nbsp; Overview</button>
+        <button class="nav-btn" onclick="openSection('Network Lab', this)">⌘ &nbsp; Network Lab</button>
+        <button class="nav-btn" onclick="openSection('Threat Simulation', this)">◎ &nbsp; Simulation</button>
+        <button class="nav-btn" onclick="openSection('Incident Response', this)">⚑ &nbsp; Incidents</button>
+        <button class="nav-btn admin-only" style="display:none" onclick="openSection('Access Control', this)">◇ &nbsp; Access Control</button>
+
+        <div class="sidebar-bottom">
+            <div>● API-connected workspace</div>
+            <div>Isolated simulation environment</div>
+        </div>
+    </aside>
+
+    <main class="main">
+
+        <header class="topbar">
+            <div>
+                <strong id="pageTitle">Security Overview</strong>
+                <p>Cybersecurity operations workspace</p>
+            </div>
+
+            <div class="profile">
+                <div class="avatar">CO</div>
+                <span id="analystName">Analyst Workspace</span>
+                <span class="pill" id="roleBadge">ANALYST</span>
+                <div class="topbar-tools"><button type="button" onclick="refreshWorkspace()" aria-label="Refresh live data">↻</button><button type="button" onclick="logout()">Sign out</button></div>
+            </div>
+        </header>
+
+        <div class="content">
+
+            <section id="overview">
+                <div class="eyebrow">SECURITY CENTER / OVERVIEW</div>
+
+                <h1 id="welcomeTitle">Good to see you.</h1>
+
+                <p class="subtitle">
+                    Monitor your live runs, investigate alerts, and control isolated security exercises.
+                </p>
+
+                <div class="status">
+                    <span class="dot"></span>
+                    <span id="connectionStatus">Connected to live backend</span>
+                </div>
+
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-label">Open Alerts</div>
+                        <div class="stat-number" id="metricOpenAlerts">—</div>
+                        <div class="stat-note">Your simulation runs</div>
+                    </div>
+
+                    <div class="stat">
+                        <div class="stat-label">Simulation Runs</div>
+                        <div class="stat-number red" id="metricRuns">—</div>
+                        <div class="stat-note">Created by your account</div>
+                    </div>
+
+                    <div class="stat">
+                        <div class="stat-label">Recorded Events</div>
+                        <div class="stat-number yellow" id="metricEvents">—</div>
+                        <div class="stat-note">Persisted by the backend</div>
+                    </div>
+
+                    <div class="stat">
+                        <div class="stat-label">Network Templates</div>
+                        <div class="stat-number blue" id="metricTemplates">—</div>
+                        <div class="stat-note">Available exercise networks</div>
+                    </div>
+                </div>
+
+                <div class="grid">
+                    <div class="panel">
+                        <div class="panel-head">
+                            <h3>Alert Activity</h3>
+                            <span class="muted">Alerts by severity · live</span>
+                        </div>
+
+                        <div class="chart" id="alertActivityChart" aria-label="Live alert severity chart"></div>
+
+                        <div class="legend"><span>■</span> Live alert counts · severity</div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-head">
+                            <h3>Severity Breakdown</h3>
+                            <span class="muted">From your alerts</span>
+                        </div>
+
+                        <div id="severityBreakdown"></div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-head">
+                        <h3>Recent Security Alerts</h3>
+                            <span class="muted">Latest live alerts</span>
+                    </div>
+
+                    <div id="recentAlerts"></div>
+                </div>
+            </section>
+
+            <section class="features">
+                <div class="eyebrow">YOUR TOOLS</div>
+                <h2>Explore workspace</h2>
+
+                <div class="feature-grid">
+                    <article class="feature-card" role="button" tabindex="0" aria-label="Open Network Lab" onclick="openSection('Network Lab')">
+                        <div class="feature-icon">⌘</div>
+                        <h3>Network Lab</h3>
+                        <p>Explore a network learning workspace.</p>
+                        <span class="feature-action">Explore network →</span>
+                    </article>
+
+                    <article class="feature-card" role="button" tabindex="0" aria-label="Open Threat Simulation" onclick="openSection('Threat Simulation')">
+                        <div class="feature-icon">◎</div>
+                        <h3>Threat Simulation</h3>
+                        <p>Learn how security scenarios are analysed.</p>
+                        <span class="feature-action">Open simulation →</span>
+                    </article>
+
+                    <article class="feature-card" role="button" tabindex="0" aria-label="Open Incident Response" onclick="openSection('Incident Response')">
+                        <div class="feature-icon">⚑</div>
+                        <h3>Incident Response</h3>
+                        <p>Explore incident investigation workflows.</p>
+                        <span class="feature-action">View incidents →</span>
+                    </article>
+                </div>
+
+                <div class="notice" id="notice"></div>
+            </section>
+            <section id="networkLab" style="display:none; padding:24px;">
+                <div class="eyebrow">ENVIRONMENT BUILDER</div><h2>Network Lab</h2>
+                <p>Create and inspect persisted network templates. Assets and edges added here become the basis for isolated simulation runs.</p>
+                <div class="panel">
+                    <div class="panel-head"><h3>Network templates</h3><button class="action-button secondary-button" onclick="loadNetworks()">Refresh</button></div>
+                    <div class="data-toolbar"><label for="networkSelect">Selected template</label><select id="networkSelect"></select></div>
+                    <div id="networkGraph" class="data-list"></div>
+                </div>
+                <div class="grid">
+                    <div class="incident-panel">
+                        <h3>Create network template</h3>
+                        <form id="networkForm" class="form-grid">
+                            <div class="full"><label for="networkName">Name</label><input id="networkName" required maxlength="120" placeholder="e.g. Campus Lab"></div>
+                            <div class="full"><label for="networkDescription">Description</label><textarea id="networkDescription" rows="2" placeholder="What does this simulated network represent?"></textarea></div>
+                            <button class="action-button" type="submit">Create template</button>
+                        </form>
+                    </div>
+                    <div class="incident-panel">
+                        <h3>Add asset to selected template</h3>
+                        <form id="assetForm" class="form-grid">
+                            <div><label for="assetName">Asset name</label><input id="assetName" required maxlength="120"></div>
+                            <div><label for="assetType">Type</label><select id="assetType"><option>WORKSTATION</option><option>SERVER</option><option>DATABASE</option><option>USER_ACCOUNT</option><option>FIREWALL</option><option>SECURITY_MONITOR</option></select></div>
+                            <div><label for="assetCriticality">Criticality</label><select id="assetCriticality"><option>LOW</option><option>MEDIUM</option><option>HIGH</option><option>CRITICAL</option></select></div>
+                            <div><label for="assetState">Initial state</label><select id="assetState"><option>NORMAL</option><option>COMPROMISED</option><option>DISABLED</option></select></div>
+                            <button class="action-button" type="submit">Add asset</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="incident-panel">
+                    <h3>Connect assets</h3>
+                    <form id="edgeForm" class="form-grid">
+                        <div><label for="edgeSource">Source asset</label><select id="edgeSource" required></select></div>
+                        <div><label for="edgeTarget">Target asset</label><select id="edgeTarget" required></select></div>
+                        <div><label for="edgeType">Relationship</label><input id="edgeType" required value="CONNECTS_TO" maxlength="40"></div>
+                        <button class="action-button" type="submit">Create directed edge</button>
+                    </form>
+                </div>
+                <p class="inline-message" id="networkMessage" role="status"></p>
+            </section>
+
+            <section id="threatSimulation" style="display:none; padding:24px;">
+                <div class="eyebrow">ISOLATED EXERCISES</div><h2>Threat Simulation</h2>
+                <p>Create a run from a saved scenario, execute it step-by-step or in the background, and inspect persisted results.</p>
+                <div class="incident-panel">
+                    <h3>Scenario and run control</h3>
+                    <div class="form-grid">
+                        <div><label for="scenarioSelect">Scenario</label><select id="scenarioSelect"></select></div>
+                        <button class="action-button" id="createRunButton" type="button">Create isolated run</button>
+                    </div>
+                    <div class="data-toolbar"><label for="runSelect">Your runs</label><select id="runSelect"></select><span class="pill" id="runStatus">No run selected</span></div>
+                    <div class="data-toolbar">
+                        <button class="action-button" id="startRunButton" type="button">Start</button>
+                        <button class="action-button" id="stepRunButton" type="button">Run one step</button>
+                        <button class="action-button" id="autoRunButton" type="button">Run to completion</button>
+                        <button class="action-button secondary-button" id="pauseRunButton" type="button">Pause</button>
+                        <button class="action-button danger-button" id="stopRunButton" type="button">Stop</button>
+                    </div>
+                    <p class="inline-message" id="runMessage" role="status"></p>
+                </div>
+                <div class="grid">
+                    <div class="incident-panel"><div class="panel-head"><h3>Event stream</h3><button class="action-button secondary-button" id="refreshRunButton" type="button">Refresh</button></div><div id="eventList" class="data-list"></div></div>
+                    <div class="incident-panel"><h3>Run metrics</h3><div id="runMetrics" class="data-list"></div></div>
+                </div>
+                <div class="incident-panel analyst-admin-only" style="display:none">
+                    <h3>Author a scenario</h3>
+                    <p class="muted">Analyst or admin access is required. Scenarios become immutable after a run is created.</p>
+                    <form id="scenarioForm" class="form-grid">
+                        <div><label for="scenarioName">Scenario name</label><input id="scenarioName" required maxlength="120"></div>
+                        <div><label for="scenarioDescription">Description</label><input id="scenarioDescription"></div>
+                        <button class="action-button" type="submit">Create scenario</button>
+                    </form>
+                    <form id="stepForm" class="form-grid" style="margin-top:20px">
+                        <div><label for="stepScenario">Scenario to edit</label><select id="stepScenario" required></select></div>
+                        <div><label for="stepType">Attack step</label><select id="stepType"><option>ACCOUNT_COMPROMISE</option><option>LATERAL_MOVEMENT</option><option>SUSPICIOUS_LOGIN</option></select></div>
+                        <div><label for="stepTemplate">Scenario network</label><select id="stepTemplate" required></select></div>
+                        <div><label for="stepSource">Source asset</label><select id="stepSource" required></select></div>
+                        <div><label for="stepTarget">Target asset</label><select id="stepTarget" required></select></div>
+                        <div id="attemptsField" style="display:none"><label for="failedAttempts">Simulated failed attempts</label><input id="failedAttempts" type="number" min="1" max="100" value="5"></div>
+                        <button class="action-button" type="submit">Append step</button>
+                    </form>
+                </div>
+            </section>
+
+            <section id="incidentResponse" style="display:none; padding:24px;">
+                <div class="eyebrow">DETECTION & CONTAINMENT</div><h2>Incidents</h2>
+                <p>Review real alerts generated by your runs, update their workflow state, and apply simulated defenses to an active run.</p>
+                <div class="incident-panel"><div class="panel-head"><h3>Alerts from your runs</h3><button class="action-button secondary-button" onclick="loadAlerts()">Refresh alerts</button></div><div id="alertList" class="data-list"></div><p class="inline-message" id="alertMessage" role="status"></p></div>
+                <div class="incident-panel defender-admin-only" style="display:none">
+                    <h3>Apply a simulated defense</h3>
+                    <p class="muted">Only Defender and Admin accounts can apply defenses. Changes are isolated to the selected run.</p>
+                    <form id="defenseForm" class="form-grid">
+                        <div><label for="defenseRun">Run</label><select id="defenseRun" required></select></div>
+                        <div><label for="defenseAction">Action</label><select id="defenseAction"><option>ISOLATE_ASSET</option><option>DISABLE_ACCOUNT</option><option>BLOCK_EDGE</option><option>ACKNOWLEDGE_ALERT</option></select></div>
+                        <div id="defenseAssetField"><label for="defenseAsset">Asset</label><select id="defenseAsset"></select></div>
+                        <div id="defenseEdgeField" style="display:none"><label for="defenseEdge">Network edge</label><select id="defenseEdge"></select></div>
+                        <div id="defenseAlertField" style="display:none"><label for="defenseAlert">Alert</label><select id="defenseAlert"></select></div>
+                        <div class="full"><label for="defenseReason">Reason</label><input id="defenseReason" required maxlength="500" placeholder="Explain the simulated response"></div>
+                        <button class="action-button" type="submit">Apply defense</button>
+                    </form>
+                    <p class="inline-message" id="defenseMessage" role="status"></p>
+                </div>
+                <div class="incident-panel"><h3>Detection rules</h3><div id="ruleList" class="data-list"></div></div>
+                <div class="incident-panel analyst-admin-only" style="display:none">
+                    <h3>Create detection rule</h3><p class="muted">Analyst or Admin access is required.</p>
+                    <form id="ruleForm" class="form-grid">
+                        <div><label for="ruleName">Name</label><input id="ruleName" required maxlength="120"></div>
+                        <div><label for="ruleEvent">Event type (matched to rule)</label><select id="ruleEvent" disabled><option>SUSPICIOUS_LOGIN</option><option>LATERAL_MOVEMENT</option><option>BLOCKED_TRANSITION</option><option>ACCOUNT_COMPROMISE</option></select></div>
+                        <div><label for="ruleKind">Rule type</label><select id="ruleKind"><option>REPEATED_FAILED_LOGIN</option><option>UNEXPECTED_TRANSITION</option><option>ISOLATED_ASSET_ATTEMPT</option><option>HIGH_CRITICALITY_ACCESS</option><option>ACCOUNT_COMPROMISE_DETECTED</option></select></div>
+                        <div><label for="ruleSeverity">Severity</label><select id="ruleSeverity"><option>LOW</option><option>MEDIUM</option><option>HIGH</option><option>CRITICAL</option></select></div>
+                        <div><label for="ruleThreshold">Threshold</label><input id="ruleThreshold" type="number" min="1" value="1" required></div>
+                        <div><label for="ruleWindow">Window in seconds</label><input id="ruleWindow" type="number" min="1" value="300" required></div>
+                        <div class="full"><label for="ruleDescription">Description</label><input id="ruleDescription"></div>
+                        <button class="action-button" type="submit">Create rule</button>
+                    </form>
+                    <p class="inline-message" id="ruleMessage" role="status"></p>
+                </div>
+            </section>
+
+            <section id="accessControl" style="display:none; padding:24px;">
+                <div class="eyebrow">IDENTITY ADMINISTRATION</div><h2>Access Control</h2>
+                <p>Manage accounts and roles. This section is available only to administrators.</p>
+                <div class="incident-panel"><h3>Create account</h3><form id="userForm" class="form-grid">
+                    <div><label for="newUsername">Username</label><input id="newUsername" maxlength="80" required></div>
+                    <div><label for="newEmail">Email</label><input id="newEmail" type="email" maxlength="254" required></div>
+                    <div><label for="newPassword">Temporary password (14+ characters)</label><input id="newPassword" type="password" minlength="14" maxlength="100" required></div>
+                    <div><label for="newRole">Role</label><select id="newRole"><option value="ANALYST">Analyst</option><option value="DEFENDER">Defender</option></select></div>
+                    <button class="action-button" type="submit">Create account</button>
+                </form></div>
+                <div class="incident-panel"><div class="panel-head"><h3>Accounts</h3><button class="action-button secondary-button" onclick="loadUsers()">Refresh</button></div><div id="userList" class="data-list"></div><p class="inline-message" id="userMessage" role="status"></p></div>
+            </section>
+
+
+            <footer>
+                CyberOps Arena · Academic Project · Simulation changes are isolated to the database model.
+            </footer>
+        </div>
+    </main>
+</div>
+
+<script>
+const transitionOverlay = document.getElementById("transitionOverlay");
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+const $ = selector => document.querySelector(selector);
+const byId = id => document.getElementById(id);
+const cache = { alerts: [], runs: [], scenarios: [], templates: [], rules: [], users: [], selectedRun: null, runAssets: [], runEdges: [] };
+let API_BASE = localStorage.getItem("cyberopsApiBase") || `${window.location.protocol === "https:" ? "https:" : "http:"}//${window.location.hostname || "localhost"}:8080/api/v1`;
+let authToken = sessionStorage.getItem("cyberopsToken");
+let currentUser = null;
+let authMode = "login";
+let transitionBusy = true;
+let currentSection = "Overview";
+let pollingTimer = null;
+let pollBusy = false;
+
+function configureApiBase(value) {
+    let parsed;
+    try { parsed = new URL(value.trim()); } catch { throw new Error("Enter a valid backend URL, such as http://localhost:8080/api/v1"); }
+    if (!new Set(["http:", "https:"]).has(parsed.protocol)) throw new Error("The backend URL must use HTTP or HTTPS");
+    parsed.pathname = parsed.pathname.replace(/\/+$/, "");
+    if (!parsed.pathname.endsWith("/api/v1")) parsed.pathname += "/api/v1";
+    API_BASE = parsed.toString().replace(/\/$/, "");
+    localStorage.setItem("cyberopsApiBase", API_BASE);
+    byId("apiBase").value = API_BASE;
+}
+
+function setAuthMode(mode) {
+    authMode = mode;
+    const signingUp = mode === "signup";
+    byId("signupEmailField").hidden = !signingUp;
+    byId("signupRoleField").hidden = !signingUp;
+    byId("signupConfirmField").hidden = !signingUp;
+    byId("signupEmail").required = signingUp;
+    byId("signupRole").required = signingUp;
+    byId("signupPasswordConfirm").required = signingUp;
+    if (signingUp) byId("loginPassword").minLength = 14;
+    else byId("loginPassword").removeAttribute("minlength");
+    byId("loginPassword").autocomplete = signingUp ? "new-password" : "current-password";
+    byId("loginTitle").textContent = signingUp ? "Join CyberOps Arena." : "Welcome back, analyst.";
+    byId("authDescription").textContent = signingUp
+        ? "Choose Analyst or Defender access for your account. Use a password with at least 14 characters."
+        : "Sign in to load your live CyberOps workspace. Access is validated by the backend.";
+    byId("loginSubmit").textContent = signingUp ? "Create account" : "Connect to CyberOps";
+    byId("authModePrompt").textContent = signingUp ? "Already have an account?" : "New to CyberOps?";
+    byId("authModeToggle").textContent = signingUp ? "Sign in" : "Create an account";
+    byId("authModeToggle").setAttribute("aria-pressed", String(signingUp));
+    showMessage("loginMessage", "");
+}
+
+function setPasswordVisibility(inputId, visible) {
+    const input = byId(inputId);
+    const toggle = document.querySelector(`[data-password-for="${inputId}"]`);
+    if (!input || !toggle) return;
+    input.type = visible ? "text" : "password";
+    const label = visible ? "Hide password" : "Show password";
+    toggle.setAttribute("aria-label", label);
+    toggle.setAttribute("aria-pressed", String(visible));
+    toggle.dataset.tooltip = label;
+}
+
+async function api(path, options = {}) {
+    const headers = { Accept: "application/json", ...(options.body ? { "Content-Type": "application/json" } : {}), ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}), ...options.headers };
+    let response;
+    try {
+        response = await fetch(`${API_BASE}${path}`, { method: options.method || "GET", headers, body: options.body ? JSON.stringify(options.body) : undefined });
+    } catch (error) {
+        throw new Error(`Cannot reach ${API_BASE}. Start the backend and check CORS allows this frontend's origin. (${error.message})`);
+    }
+    const raw = await response.text();
+    let result = null;
+    if (raw) { try { result = JSON.parse(raw); } catch { result = raw; } }
+    if (!response.ok) {
+        if (response.status === 401 && authToken) invalidateSession("Your session expired. Sign in again.");
+        throw new Error(result?.message || (typeof result === "string" ? result : `Request failed (${response.status})`));
+    }
+    return result;
+}
+
+function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
+}
+function asObject(value) {
+    if (value && typeof value === "object") return value;
+    if (typeof value === "string") { try { return JSON.parse(value); } catch { return {}; } }
+    return {};
+}
+function showMessage(id, message, type = "") {
+    const element = byId(id);
+    if (!element) return;
+    element.textContent = message || "";
+    element.className = `inline-message${type ? ` ${type}` : ""}`;
+}
+function emptyState(message) { return `<p class="empty-state">${escapeHtml(message)}</p>`; }
+function formBody(fields) { return Object.fromEntries(fields.map(id => [id, byId(id).value.trim()])); }
+
+function wait(milliseconds) {
+    return new Promise(resolve => window.setTimeout(resolve, reducedMotion.matches ? Math.min(milliseconds, 55) : milliseconds));
+}
+
+function showSection(name, button) {
+    if (name === "Access Control" && currentUser?.role !== "ADMIN") return;
+    const sections = {
+        "Overview": ["overview", "features"],
+        "Network Lab": ["networkLab"],
+        "Threat Simulation": ["threatSimulation"],
+        "Incident Response": ["incidentResponse"],
+        "Access Control": ["accessControl"]
+    };
+    if (!sections[name]) return;
+
+    Object.values(sections).flat().forEach(id => {
+        const element = document.getElementById(id) || document.querySelector(`.${id}`);
+        if (element) element.style.display = "none";
+    });
+    sections[name].forEach(id => {
+        const element = document.getElementById(id) || document.querySelector(`.${id}`);
+        if (element) {
+            element.style.display = "block";
+            element.classList.remove("section-enter");
+            void element.offsetWidth;
+            element.classList.add("section-enter");
+        }
+    });
+
+    const titles = { "Overview": "Security Overview", "Network Lab": "Network Lab", "Threat Simulation": "Threat Simulation", "Incident Response": "Incident Response", "Access Control": "Access Control" };
+    document.getElementById("pageTitle").textContent = titles[name];
+    document.querySelectorAll(".nav-btn").forEach(item => {
+        const isActive = button ? item === button : item.textContent.toLowerCase().includes(name === "Threat Simulation" ? "simulation" : name === "Incident Response" ? "incidents" : name === "Access Control" ? "access control" : name.toLowerCase());
+        item.classList.toggle("active", isActive);
+        item.setAttribute("aria-current", isActive ? "page" : "false");
+    });
+    currentSection = name;
+    window.scrollTo({ top: 0, behavior: "auto" });
+}
+
+async function playReveal(onCovered) {
+    transitionBusy = true;
+    document.documentElement.classList.add("transitioning");
+    transitionOverlay.classList.remove("reveal", "logo-arrive", "cover");
+    void transitionOverlay.offsetWidth;
+    transitionOverlay.classList.add("cover", "logo-arrive");
+    await wait(reducedMotion.matches ? 75 : 850);
+    onCovered();
+    transitionOverlay.classList.remove("cover");
+    transitionOverlay.classList.add("reveal");
+    document.documentElement.classList.remove("booting");
+    await wait(reducedMotion.matches ? 100 : 1060);
+    transitionOverlay.classList.remove("reveal", "logo-arrive");
+    document.documentElement.classList.remove("transitioning");
+    document.documentElement.classList.remove("booting");
+    transitionBusy = false;
+}
+
+function openSection(name, button) {
+    if (transitionBusy || name === currentSection) return;
+    playReveal(() => showSection(name, button));
+}
+
+function invalidateSession(message) {
+    authToken = null;
+    currentUser = null;
+    sessionStorage.removeItem("cyberopsToken");
+    if (pollingTimer) clearInterval(pollingTimer);
+    byId("appLayout").style.display = "none";
+    byId("loginGate").style.display = "grid";
+    showMessage("loginMessage", message, "error");
+}
+
+function updateProfile() {
+    byId("analystName").textContent = currentUser?.username || "Workspace";
+    byId("roleBadge").textContent = currentUser?.role || "";
+    document.querySelectorAll(".admin-only").forEach(item => item.style.display = currentUser?.role === "ADMIN" ? "block" : "none");
+    document.querySelectorAll(".analyst-admin-only").forEach(item => item.style.display = ["ADMIN", "ANALYST"].includes(currentUser?.role) ? "" : "none");
+    document.querySelectorAll(".defender-admin-only").forEach(item => item.style.display = ["ADMIN", "DEFENDER"].includes(currentUser?.role) ? "" : "none");
+    byId("welcomeTitle").textContent = `Good to see you, ${currentUser?.username || "Analyst"}.`;
+}
+
+async function enterApplication() {
+    await playReveal(() => {
+        byId("loginGate").style.display = "none";
+        byId("appLayout").style.display = "flex";
+        updateProfile();
+        showSection("Overview", document.querySelector(".nav-btn"));
+    });
+    await loadWorkspace();
+}
+
+async function logout() {
+    invalidateSession("Signed out.");
+    byId("loginPassword").value = "";
+}
+
+async function onLoginSubmit(event) {
+    event.preventDefault();
+    const submit = byId("loginSubmit");
+    submit.disabled = true;
+    showMessage("loginMessage", authMode === "signup" ? "Creating your account…" : "Connecting to backend…");
+    try {
+        configureApiBase(byId("apiBase").value);
+        const credentials = { username: byId("loginUsername").value.trim(), password: byId("loginPassword").value };
+        let session;
+        if (authMode === "signup") {
+            if (credentials.password !== byId("signupPasswordConfirm").value) throw new Error("The passwords do not match.");
+            session = await api("/auth/register", { method: "POST", body: { ...credentials, email: byId("signupEmail").value.trim(), role: byId("signupRole").value } });
+            setAuthMode("login");
+        } else {
+            session = await api("/auth/login", { method: "POST", body: credentials });
+        }
+        authToken = session.accessToken;
+        sessionStorage.setItem("cyberopsToken", authToken);
+        currentUser = await api("/auth/me");
+        byId("loginPassword").value = "";
+        showMessage("loginMessage", "");
+        await enterApplication();
+    } catch (error) {
+        authToken = null;
+        sessionStorage.removeItem("cyberopsToken");
+        showMessage("loginMessage", error.message, "error");
+    } finally { submit.disabled = false; }
+}
+
+async function resumeSession() {
+    byId("apiBase").value = API_BASE;
+    await playReveal(() => {});
+    if (!authToken) return;
+    try {
+        currentUser = await api("/auth/me");
+        await enterApplication();
+    } catch (error) {
+        authToken = null;
+        sessionStorage.removeItem("cyberopsToken");
+        byId("loginGate").style.display = "grid";
+        byId("appLayout").style.display = "none";
+        showMessage("loginMessage", error.message, "error");
+    }
+}
+
+function severityClass(severity) {
+    return ({ CRITICAL: "bad", HIGH: "bad", MEDIUM: "warn", LOW: "good" })[String(severity).toUpperCase()] || "";
+}
+function formatDate(value) {
+    if (!value) return "Time unavailable";
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? String(value) : date.toLocaleString();
+}
+
+function renderDashboard(overview = {}) {
+    byId("metricOpenAlerts").textContent = overview.openAlerts ?? 0;
+    byId("metricRuns").textContent = overview.runs ?? 0;
+    byId("metricEvents").textContent = overview.events ?? 0;
+    byId("metricTemplates").textContent = cache.templates.length;
+    const counts = Object.fromEntries(["CRITICAL", "HIGH", "MEDIUM", "LOW"].map(level => [level, cache.alerts.filter(alert => alert.severity === level).length]));
+    const max = Math.max(1, ...Object.values(counts));
+    const colors = { CRITICAL: "#fb7185", HIGH: "#fbbf24", MEDIUM: "#38bdf8", LOW: "#4ade80" };
+    byId("severityBreakdown").innerHTML = Object.entries(counts).map(([level, count]) => `<div class="severity-row"><span class="${level === "CRITICAL" ? "red" : level === "HIGH" ? "yellow" : level === "MEDIUM" ? "blue" : "green"}">${level}</span><span>${count}</span></div><div class="track"><div class="fill" style="width:${count ? Math.max(4, count / max * 100) : 0}%;background:${colors[level]}"></div></div>`).join("");
+    byId("alertActivityChart").innerHTML = Object.entries(counts).map(([level, count]) => `<div class="bar-wrap"><div class="bar" title="${level}: ${count}" style="height:${count ? Math.max(5, count / max * 100) : 3}%;background:linear-gradient(to top, ${colors[level]}, #8deaff)"></div><span>${level.slice(0, 3)}</span></div>`).join("");
+    const recent = cache.alerts.slice(0, 5);
+    byId("recentAlerts").innerHTML = recent.length ? recent.map(alert => `<div class="alert"><div class="alert-icon">!</div><div class="alert-info"><strong>${escapeHtml(asObject(alert.evidence).evidence || `Detection rule #${alert.rule_id}`)}</strong><small>Run #${alert.run_id} · ${escapeHtml(formatDate(alert.created_at))}</small></div><span class="badge">${escapeHtml(alert.severity)}</span></div>`).join("") : emptyState("No alerts yet. Run a scenario to generate real detections.");
+}
+
+async function loadWorkspace() {
+    byId("connectionStatus").textContent = "Refreshing live data…";
+    try {
+        const [overview, alerts, runs, scenarios, templates, rules] = await Promise.all([
+            api("/analytics/overview"), api("/alerts"), api("/simulation-runs"), api("/scenarios"), api("/network-templates"), api("/detection-rules")
+        ]);
+        cache.alerts = alerts || [];
+        cache.runs = runs || [];
+        cache.scenarios = scenarios || [];
+        cache.templates = templates || [];
+        cache.rules = rules || [];
+        renderDashboard(overview);
+        renderAlerts();
+        renderScenarios();
+        renderRuns();
+        renderRules();
+        await loadNetworks();
+        byId("connectionStatus").textContent = `Live backend connected · ${new Date().toLocaleTimeString()}`;
+        if (cache.runs.length) await refreshSelectedRun();
+        else { renderRunStatus(null); renderEvents([]); renderMetrics(null); }
+        if (currentUser?.role === "ADMIN") await loadUsers();
+    } catch (error) {
+        byId("connectionStatus").textContent = "Backend request failed";
+        showMessage("runMessage", error.message, "error");
+    }
+}
+
+async function refreshWorkspace() { await loadWorkspace(); }
+
+function fillSelect(id, rows, valueField, labelFor, emptyText) {
+    const select = byId(id);
+    if (!select) return;
+    const previous = select.value;
+    select.innerHTML = rows.length ? rows.map(row => `<option value="${escapeHtml(row[valueField])}">${escapeHtml(labelFor(row))}</option>`).join("") : `<option value="">${escapeHtml(emptyText)}</option>`;
+    if (rows.some(row => String(row[valueField]) === previous)) select.value = previous;
+}
+
+function renderScenarios() {
+    const rows = cache.scenarios;
+    fillSelect("scenarioSelect", rows, "id", row => `${row.name} · #${row.id}`, "No enabled scenarios available");
+    fillSelect("stepScenario", rows, "id", row => `${row.name} · #${row.id}`, "Create a scenario first");
+}
+
+function renderRuns() {
+    fillSelect("runSelect", cache.runs, "id", row => `Run #${row.id} · ${row.status} · scenario #${row.scenario_id}`, "No runs yet");
+    fillSelect("defenseRun", cache.runs, "id", row => `Run #${row.id} · ${row.status}`, "Create a run first");
+    const selected = byId("runSelect").value;
+    cache.selectedRun = selected ? Number(selected) : null;
+}
+
+async function loadNetworks() {
+    const previous = byId("networkSelect").value;
+    fillSelect("networkSelect", cache.templates, "id", row => `${row.name} · #${row.id}`, "No templates yet");
+    const templateRows = cache.templates.map(row => ({ id: row.id, name: row.name }));
+    fillSelect("stepTemplate", templateRows, "id", row => `${row.name} · #${row.id}`, "Create a network template first");
+    if (previous && cache.templates.some(row => String(row.id) === previous)) byId("networkSelect").value = previous;
+    await loadSelectedGraph();
+}
+
+async function loadSelectedGraph() {
+    const id = Number(byId("networkSelect").value);
+    if (!id) {
+        cache.selectedGraph = null;
+        byId("networkGraph").innerHTML = emptyState("Create a network template to add assets and edges.");
+        fillSelect("edgeSource", [], "id", () => "", "Add assets first");
+        fillSelect("edgeTarget", [], "id", () => "", "Add assets first");
+        await updateScenarioAssetOptions();
+        return;
+    }
+    try {
+        const graph = await api(`/network-templates/${id}/graph`);
+        cache.selectedGraph = graph;
+        const template = cache.templates.find(row => Number(row.id) === id);
+        const assets = graph.assets || [];
+        const edges = graph.edges || [];
+        byId("networkGraph").innerHTML = `<div class="data-row"><div class="data-row-main"><strong>${escapeHtml(template?.name || `Network #${id}`)}</strong><small>${escapeHtml(template?.description || "No description")} · ${assets.length} assets · ${edges.length} directed edges</small></div><span class="pill">template #${id}</span></div><h4>Assets</h4>${assets.length ? assets.map(asset => `<div class="data-row"><div class="data-row-main"><strong>${escapeHtml(asset.name)}</strong><small>ID ${asset.id} · ${escapeHtml(asset.asset_type)} · ${escapeHtml(asset.criticality)} · ${escapeHtml(asset.initial_state)}</small></div></div>`).join("") : emptyState("No assets in this template yet.")}<h4>Edges</h4>${edges.length ? edges.map(edge => `<div class="data-row"><div class="data-row-main"><strong>${escapeHtml(edge.source_asset_id)} → ${escapeHtml(edge.target_asset_id)}</strong><small>${escapeHtml(edge.relationship_type)} · ${edge.enabled ? "enabled" : "disabled"}</small></div></div>`).join("") : emptyState("No edges in this template yet.")}`;
+        fillSelect("edgeSource", assets, "id", row => `${row.name} · #${row.id}`, "No assets");
+        fillSelect("edgeTarget", assets, "id", row => `${row.name} · #${row.id}`, "No assets");
+        await updateScenarioAssetOptions();
+    } catch (error) { byId("networkGraph").innerHTML = emptyState(error.message); }
+}
+
+async function updateScenarioAssetOptions() {
+    const id = Number(byId("stepTemplate").value || byId("networkSelect").value);
+    if (!id) {
+        fillSelect("stepSource", [], "id", () => "", "Select a network");
+        fillSelect("stepTarget", [], "id", () => "", "Select a network");
+        return;
+    }
+    try {
+        const graph = id === Number(byId("networkSelect").value) && cache.selectedGraph ? cache.selectedGraph : await api(`/network-templates/${id}/graph`);
+        fillSelect("stepSource", graph.assets || [], "id", row => `${row.name} · #${row.id}`, "Add assets first");
+        fillSelect("stepTarget", graph.assets || [], "id", row => `${row.name} · #${row.id}`, "Add assets first");
+    } catch (error) { showMessage("runMessage", error.message, "error"); }
+}
+
+async function createNetwork(event) {
+    event.preventDefault();
+    try {
+        const result = await api("/network-templates", { method: "POST", body: { name: byId("networkName").value.trim(), description: byId("networkDescription").value.trim() } });
+        cache.templates.unshift(result);
+        renderDashboard({ openAlerts: byId("metricOpenAlerts").textContent, runs: byId("metricRuns").textContent, events: byId("metricEvents").textContent });
+        renderNetworkOptionsAndSelect(result.id);
+        showMessage("networkMessage", `Created network template #${result.id}. Add assets, then connect them with edges.`, "success");
+        byId("networkForm").reset();
+        await loadSelectedGraph();
+    } catch (error) { showMessage("networkMessage", error.message, "error"); }
+}
+
+function renderNetworkOptionsAndSelect(selectedId) {
+    fillSelect("networkSelect", cache.templates, "id", row => `${row.name} · #${row.id}`, "No templates yet");
+    fillSelect("stepTemplate", cache.templates, "id", row => `${row.name} · #${row.id}`, "Create a network template first");
+    byId("networkSelect").value = String(selectedId);
+    byId("stepTemplate").value = String(selectedId);
+}
+
+async function addAsset(event) {
+    event.preventDefault();
+    const templateId = Number(byId("networkSelect").value);
+    if (!templateId) return showMessage("networkMessage", "Create or select a network template first.", "error");
+    try {
+        await api(`/network-templates/${templateId}/assets`, { method: "POST", body: { name: byId("assetName").value.trim(), assetType: byId("assetType").value, criticality: byId("assetCriticality").value, initialState: byId("assetState").value, attributes: {} } });
+        byId("assetForm").reset();
+        showMessage("networkMessage", "Asset saved to MySQL.", "success");
+        await loadSelectedGraph();
+        await loadWorkspaceSummary();
+    } catch (error) { showMessage("networkMessage", error.message, "error"); }
+}
+
+async function addEdge(event) {
+    event.preventDefault();
+    const templateId = Number(byId("networkSelect").value);
+    try {
+        await api(`/network-templates/${templateId}/edges`, { method: "POST", body: { sourceAssetId: Number(byId("edgeSource").value), targetAssetId: Number(byId("edgeTarget").value), relationshipType: byId("edgeType").value.trim() } });
+        showMessage("networkMessage", "Directed edge saved to MySQL.", "success");
+        await loadSelectedGraph();
+        await loadWorkspaceSummary();
+    } catch (error) { showMessage("networkMessage", error.message, "error"); }
+}
+
+async function loadWorkspaceSummary() {
+    const [overview, alerts, runs, templates] = await Promise.all([api("/analytics/overview"), api("/alerts"), api("/simulation-runs"), api("/network-templates")]);
+    cache.alerts = alerts || []; cache.runs = runs || []; cache.templates = templates || [];
+    renderDashboard(overview); renderRuns();
+}
+
+async function createScenario(event) {
+    event.preventDefault();
+    try {
+        const result = await api("/scenarios", { method: "POST", body: { name: byId("scenarioName").value.trim(), description: byId("scenarioDescription").value.trim() } });
+        cache.scenarios.push(result); renderScenarios(); byId("stepScenario").value = String(result.id);
+        byId("scenarioForm").reset(); showMessage("runMessage", `Scenario #${result.id} created. Add at least one step before creating a run.`, "success");
+    } catch (error) { showMessage("runMessage", error.message, "error"); }
+}
+
+async function appendScenarioStep(event) {
+    event.preventDefault();
+    const scenarioId = Number(byId("stepScenario").value);
+    const stepType = byId("stepType").value;
+    try {
+        const scenario = await api(`/scenarios/${scenarioId}`);
+        const body = { stepOrder: scenario.steps.length + 1, stepType, sourceAssetId: Number(byId("stepSource").value), targetAssetId: Number(byId("stepTarget").value), preconditions: stepType === "SUSPICIOUS_LOGIN" ? { attempts: Number(byId("failedAttempts").value) } : {}, effects: {} };
+        await api(`/scenarios/${scenarioId}/steps`, { method: "POST", body });
+        showMessage("runMessage", `Step ${body.stepOrder} appended to “${scenario.name}”.`, "success");
+        await loadWorkspace();
+        byId("stepScenario").value = String(scenarioId);
+    } catch (error) { showMessage("runMessage", error.message, "error"); }
+}
+
+async function loadRuns() {
+    cache.runs = await api("/simulation-runs");
+    renderRuns();
+    if (cache.selectedRun) await refreshSelectedRun();
+}
+
+async function createRun() {
+    const scenarioId = Number(byId("scenarioSelect").value);
+    if (!scenarioId) return showMessage("runMessage", "Select an enabled scenario first.", "error");
+    try {
+        const run = await api("/simulation-runs", { method: "POST", body: { scenarioId } });
+        cache.selectedRun = Number(run.id);
+        await loadRuns();
+        byId("runSelect").value = String(run.id);
+        showMessage("runMessage", `Run #${run.id} created with its own isolated network snapshot.`, "success");
+        await refreshSelectedRun();
+        await loadWorkspaceSummary();
+    } catch (error) { showMessage("runMessage", error.message, "error"); }
+}
+
+function renderRunStatus(run) {
+    const status = run?.status || "No run selected";
+    byId("runStatus").textContent = status;
+    byId("runStatus").className = `pill ${status === "COMPLETED" ? "good" : ["FAILED", "STOPPED"].includes(status) ? "bad" : "warn"}`;
+    const hasRun = Boolean(run);
+    byId("startRunButton").disabled = !hasRun || !["CREATED", "PAUSED"].includes(status);
+    byId("stepRunButton").disabled = !hasRun || status !== "RUNNING";
+    byId("autoRunButton").disabled = !hasRun || status !== "CREATED";
+    byId("pauseRunButton").disabled = !hasRun || status !== "RUNNING";
+    byId("stopRunButton").disabled = !hasRun || !["CREATED", "RUNNING", "PAUSED"].includes(status);
+}
+
+function renderEvents(events) {
+    byId("eventList").innerHTML = events.length ? [...events].reverse().map(event => {
+        const data = asObject(event.event_data);
+        return `<div class="data-row"><div class="data-row-main"><strong>#${event.sequence_number} · ${escapeHtml(event.event_type)} <span class="pill ${event.outcome === "SUCCESS" ? "good" : "warn"}">${escapeHtml(event.outcome)}</span></strong><small>${escapeHtml(data.description || "Simulated event")} · ${escapeHtml(formatDate(event.occurred_at))}</small><small>Source ${escapeHtml(event.source_asset_id ?? "—")} → target ${escapeHtml(event.target_asset_id ?? "—")}</small></div><span class="pill ${severityClass(event.severity)}">${escapeHtml(event.severity)}</span></div>`;
+    }).join("") : emptyState("No events recorded yet. Start this run and step the scenario.");
+}
+
+function renderMetrics(metrics) {
+    if (!metrics) { byId("runMetrics").innerHTML = emptyState("Select a run to view its metrics."); return; }
+    const labels = [["totalEvents", "Events"], ["successfulTransitions", "Successful transitions"], ["blockedTransitions", "Blocked transitions"], ["distinctAssetsReached", "Assets reached"], ["finalModeledRiskScore", "Modeled risk score"]];
+    byId("runMetrics").innerHTML = labels.map(([key, title]) => `<div class="data-row"><div class="data-row-main"><small>${title}</small><strong>${escapeHtml(metrics[key] ?? 0)}${key === "finalModeledRiskScore" ? "/100" : ""}</strong></div></div>`).join("");
+}
+
+async function refreshSelectedRun(pollOnly = false) {
+    const runId = Number(byId("runSelect").value || cache.selectedRun);
+    if (!runId) { renderRunStatus(null); renderEvents([]); renderMetrics(null); return; }
+    cache.selectedRun = runId;
+    try {
+        const [run, events, metrics, alerts] = await Promise.all([
+            api(`/simulation-runs/${runId}`), api(`/simulation-runs/${runId}/events`), api(`/simulation-runs/${runId}/metrics`),
+            api(`/simulation-runs/${runId}/alerts`)
+        ]);
+        cache.selectedRunData = run;
+        cache.alerts = [...(cache.alerts.filter(alert => Number(alert.run_id) !== runId)), ...(alerts || [])].sort((a, b) => String(b.created_at).localeCompare(String(a.created_at)));
+        renderRunStatus(run); renderEvents(events || []); renderMetrics(metrics); renderAlerts(); renderDashboard({ openAlerts: cache.alerts.filter(alert => alert.status === "OPEN").length, runs: cache.runs.length, events: (await api("/analytics/overview")).events });
+        if (!pollOnly) {
+            byId("defenseRun").value = String(runId);
+            const [assets, edges, defenses] = await Promise.all([api(`/simulation-runs/${runId}/assets`), api(`/simulation-runs/${runId}/edges`), api(`/simulation-runs/${runId}/defenses`)]);
+            cache.runAssets = assets || []; cache.runEdges = edges || [];
+            renderDefenseOptions(cache.runAssets, cache.runEdges, alerts || [], defenses || []);
+        }
+        if (["RUNNING"].includes(run.status)) startPolling(); else stopPolling();
+    } catch (error) { showMessage("runMessage", error.message, "error"); }
+}
+
+function startPolling() {
+    if (pollingTimer) return;
+    pollingTimer = setInterval(async () => {
+        if (pollBusy) return;
+        pollBusy = true;
+        await refreshSelectedRun(true);
+        pollBusy = false;
+    }, 1300);
+}
+function stopPolling() { if (pollingTimer) clearInterval(pollingTimer); pollingTimer = null; }
+
+async function runAction(path, successMessage) {
+    const runId = Number(byId("runSelect").value);
+    if (!runId) return showMessage("runMessage", "Create or select a run first.", "error");
+    try {
+        await api(`/simulation-runs/${runId}/${path}`, { method: "POST" });
+        showMessage("runMessage", successMessage, "success");
+        await refreshSelectedRun();
+        await loadWorkspaceSummary();
+    } catch (error) { showMessage("runMessage", error.message, "error"); }
+}
+
+async function stepRun() { await runAction("step", "One simulation step was recorded."); }
+async function executeRun() {
+    const runId = Number(byId("runSelect").value);
+    if (!runId) return showMessage("runMessage", "Create or select a run first.", "error");
+    try {
+        await api(`/simulation-runs/${runId}/execute`, { method: "POST" });
+        showMessage("runMessage", "Background simulation scheduled. This page will refresh its status automatically.", "success");
+        await refreshSelectedRun();
+    } catch (error) { showMessage("runMessage", error.message, "error"); }
+}
+
+function renderAlerts() {
+    const rows = cache.alerts;
+    byId("alertList").innerHTML = rows.length ? rows.map(alert => {
+        const evidence = asObject(alert.evidence);
+        const canUpdate = ["ADMIN", "ANALYST"].includes(currentUser?.role);
+        const controls = !canUpdate ? "" : alert.status === "OPEN" ? `<button class="action-button secondary-button" onclick="updateAlert(${Number(alert.id)},'acknowledge')">Acknowledge</button>` : alert.status === "ACKNOWLEDGED" ? `<button class="action-button secondary-button" onclick="updateAlert(${Number(alert.id)},'resolve')">Resolve</button>` : "";
+        return `<div class="data-row"><div class="data-row-main"><strong>${escapeHtml(evidence.evidence || `Alert #${alert.id}`)} <span class="pill ${severityClass(alert.severity)}">${escapeHtml(alert.severity)}</span></strong><small>Alert #${alert.id} · Run #${alert.run_id} · Rule #${alert.rule_id} · ${escapeHtml(formatDate(alert.created_at))}</small><small>Status: ${escapeHtml(alert.status)}</small></div><div class="data-row-actions">${controls}</div></div>`;
+    }).join("") : emptyState("No alerts have been generated by your simulation runs yet.");
+    const options = rows.filter(alert => alert.status !== "RESOLVED");
+    fillSelect("defenseAlert", options, "id", row => `Alert #${row.id} · ${row.severity} · ${row.status}`, "No open alerts");
+}
+
+async function loadAlerts() {
+    try { cache.alerts = await api("/alerts"); renderAlerts(); const overview = await api("/analytics/overview"); renderDashboard(overview); }
+    catch (error) { showMessage("alertMessage", error.message, "error"); }
+}
+async function updateAlert(id, action) {
+    try {
+        await api(`/alerts/${id}/${action}`, { method: "POST" });
+        cache.alerts = await api("/alerts"); renderAlerts(); renderDashboard(await api("/analytics/overview"));
+    } catch (error) { showMessage("alertMessage", error.message, "error"); }
+}
+
+function renderDefenseOptions(assets = cache.runAssets, edges = cache.runEdges, alerts = cache.alerts, defenses = []) {
+    fillSelect("defenseAsset", assets, "id", row => `${row.name} · ${row.asset_type} · #${row.id}`, "No assets in selected run");
+    fillSelect("defenseEdge", edges, "id", row => `${row.source_asset_id} → ${row.target_asset_id} · #${row.id}`, "No edges in selected run");
+    fillSelect("defenseAlert", alerts.filter(row => row.status !== "RESOLVED"), "id", row => `Alert #${row.id} · ${row.severity} · ${row.status}`, "No open alerts");
+    byId("defenseAction").dispatchEvent(new Event("change"));
+    const summary = defenses.length ? `<p class="muted">${defenses.length} persisted defense action(s) on this run. Latest: ${escapeHtml(defenses[defenses.length - 1].action_type)} · ${escapeHtml(defenses[defenses.length - 1].status)}</p>` : "";
+    const message = byId("defenseMessage");
+    if (!message.textContent) message.innerHTML = summary;
+}
+
+function toggleDefenseFields() {
+    const action = byId("defenseAction").value;
+    byId("defenseAssetField").style.display = ["ISOLATE_ASSET", "DISABLE_ACCOUNT"].includes(action) ? "block" : "none";
+    byId("defenseEdgeField").style.display = action === "BLOCK_EDGE" ? "block" : "none";
+    byId("defenseAlertField").style.display = action === "ACKNOWLEDGE_ALERT" ? "block" : "none";
+}
+
+function syncRuleEvent() {
+    const events = { REPEATED_FAILED_LOGIN: "SUSPICIOUS_LOGIN", UNEXPECTED_TRANSITION: "LATERAL_MOVEMENT", ISOLATED_ASSET_ATTEMPT: "BLOCKED_TRANSITION", HIGH_CRITICALITY_ACCESS: "LATERAL_MOVEMENT", ACCOUNT_COMPROMISE_DETECTED: "ACCOUNT_COMPROMISE" };
+    byId("ruleEvent").value = events[byId("ruleKind").value];
+}
+
+async function applyDefense(event) {
+    event.preventDefault();
+    const runId = Number(byId("defenseRun").value);
+    const actionType = byId("defenseAction").value;
+    const body = { actionType, reason: byId("defenseReason").value.trim(), targetAssetId: ["ISOLATE_ASSET", "DISABLE_ACCOUNT"].includes(actionType) ? Number(byId("defenseAsset").value) : null, edgeId: actionType === "BLOCK_EDGE" ? Number(byId("defenseEdge").value) : null, alertId: actionType === "ACKNOWLEDGE_ALERT" ? Number(byId("defenseAlert").value) : null };
+    try {
+        const result = await api(`/simulation-runs/${runId}/defenses`, { method: "POST", body });
+        showMessage("defenseMessage", `Defense ${result.status}: ${asObject(result.result).message || result.action_type}`, result.status === "APPLIED" ? "success" : "error");
+        await refreshSelectedRun(); await loadAlerts();
+    } catch (error) { showMessage("defenseMessage", error.message, "error"); }
+}
+
+function renderRules() {
+    byId("ruleList").innerHTML = cache.rules.length ? cache.rules.map(rule => `<div class="data-row"><div class="data-row-main"><strong>${escapeHtml(rule.name)} <span class="pill ${severityClass(rule.severity)}">${escapeHtml(rule.severity)}</span></strong><small>${escapeHtml(rule.event_type)} · ${escapeHtml(rule.rule_type)} · threshold ${escapeHtml(rule.threshold)} / ${escapeHtml(rule.window_seconds)}s</small><small>${escapeHtml(rule.description || "No description")} · ${rule.enabled ? "Enabled" : "Disabled"}</small></div><div class="data-row-actions">${["ADMIN", "ANALYST"].includes(currentUser?.role) ? `<button class="action-button secondary-button" onclick="toggleRule(${Number(rule.id)})">${rule.enabled ? "Disable" : "Enable"}</button>` : ""}</div></div>`).join("") : emptyState("No detection rules are configured.");
+}
+async function createRule(event) {
+    event.preventDefault();
+    const body = { name: byId("ruleName").value.trim(), description: byId("ruleDescription").value.trim(), eventType: byId("ruleEvent").value.trim().toUpperCase(), ruleType: byId("ruleKind").value, threshold: Number(byId("ruleThreshold").value), windowSeconds: Number(byId("ruleWindow").value), severity: byId("ruleSeverity").value, enabled: true };
+    try { await api("/detection-rules", { method: "POST", body }); byId("ruleForm").reset(); cache.rules = await api("/detection-rules"); renderRules(); }
+    catch (error) { showMessage("ruleMessage", error.message, "error"); }
+}
+async function toggleRule(id) {
+    const rule = cache.rules.find(item => Number(item.id) === id);
+    if (!rule) return;
+    try {
+        await api(`/detection-rules/${id}`, { method: "PATCH", body: { name: rule.name, description: rule.description, eventType: rule.event_type, ruleType: rule.rule_type, threshold: rule.threshold, windowSeconds: rule.window_seconds, severity: rule.severity, enabled: !rule.enabled } });
+        cache.rules = await api("/detection-rules"); renderRules();
+    } catch (error) { showMessage("ruleMessage", error.message, "error"); }
+}
+
+async function loadUsers() {
+    if (currentUser?.role !== "ADMIN") return;
+    try { cache.users = await api("/users?page=0&size=100"); renderUsers(); }
+    catch (error) { showMessage("userMessage", error.message, "error"); }
+}
+function renderUsers() {
+    byId("userList").innerHTML = cache.users.length ? cache.users.map(user => `<div class="data-row"><div class="data-row-main"><strong>${escapeHtml(user.username)} <span class="pill">${escapeHtml(user.role)}</span> <span class="pill ${user.enabled ? "good" : "bad"}">${user.enabled ? "Enabled" : "Disabled"}</span></strong><small>${escapeHtml(user.email)} · account #${user.id}</small></div><div class="data-row-actions"><select id="userRole${Number(user.id)}" aria-label="Role for ${escapeHtml(user.username)}"><option ${user.role === "ANALYST" ? "selected" : ""}>ANALYST</option><option ${user.role === "DEFENDER" ? "selected" : ""}>DEFENDER</option><option ${user.role === "ADMIN" ? "selected" : ""}>ADMIN</option></select><button class="action-button secondary-button" onclick="changeUserRole(${Number(user.id)})">Save role</button><button class="action-button secondary-button" onclick="setUserEnabled(${Number(user.id)},${!user.enabled})">${user.enabled ? "Disable" : "Enable"}</button><button class="action-button danger-button" onclick="deleteUser(${Number(user.id)})">Delete</button></div></div>`).join("") : emptyState("No user accounts found.");
+}
+async function createUser(event) {
+    event.preventDefault();
+    const body = { username: byId("newUsername").value.trim(), email: byId("newEmail").value.trim(), password: byId("newPassword").value, role: byId("newRole").value };
+    try { await api("/users", { method: "POST", body }); byId("userForm").reset(); await loadUsers(); showMessage("userMessage", "Account created.", "success"); }
+    catch (error) { showMessage("userMessage", error.message, "error"); }
+}
+async function changeUserRole(id) {
+    const user = cache.users.find(row => Number(row.id) === id);
+    if (!user) return;
+    try { await api(`/users/${id}`, { method: "PATCH", body: { username: user.username, email: user.email, role: byId(`userRole${id}`).value } }); await loadUsers(); showMessage("userMessage", "Account updated.", "success"); }
+    catch (error) { showMessage("userMessage", error.message, "error"); }
+}
+async function setUserEnabled(id, enabled) {
+    try { await api(`/users/${id}/enabled`, { method: "PATCH", body: { enabled } }); await loadUsers(); }
+    catch (error) { showMessage("userMessage", error.message, "error"); }
+}
+async function deleteUser(id) {
+    if (!window.confirm("Delete this account? The backend may reject deletion if it owns runs or audit history.")) return;
+    try { await api(`/users/${id}`, { method: "DELETE" }); await loadUsers(); showMessage("userMessage", "Account deleted.", "success"); }
+    catch (error) { showMessage("userMessage", error.message, "error"); }
+}
+
+function bindEvents() {
+    byId("loginForm").addEventListener("submit", onLoginSubmit);
+    byId("authModeToggle").addEventListener("click", () => setAuthMode(authMode === "login" ? "signup" : "login"));
+    document.querySelectorAll("[data-password-for]").forEach(toggle => {
+        toggle.addEventListener("click", () => {
+            const inputId = toggle.dataset.passwordFor;
+            setPasswordVisibility(inputId, byId(inputId).type === "password");
+        });
+    });
+    byId("networkForm").addEventListener("submit", createNetwork);
+    byId("assetForm").addEventListener("submit", addAsset);
+    byId("edgeForm").addEventListener("submit", addEdge);
+    byId("scenarioForm").addEventListener("submit", createScenario);
+    byId("stepForm").addEventListener("submit", appendScenarioStep);
+    byId("ruleForm").addEventListener("submit", createRule);
+    byId("userForm").addEventListener("submit", createUser);
+    byId("defenseForm").addEventListener("submit", applyDefense);
+    byId("networkSelect").addEventListener("change", loadSelectedGraph);
+    byId("stepTemplate").addEventListener("change", updateScenarioAssetOptions);
+    byId("runSelect").addEventListener("change", () => { cache.selectedRun = Number(byId("runSelect").value) || null; refreshSelectedRun(); });
+    byId("defenseRun").addEventListener("change", async () => {
+        const runId = Number(byId("defenseRun").value);
+        if (!runId) return;
+        byId("runSelect").value = String(runId);
+        cache.selectedRun = runId;
+        await refreshSelectedRun();
+    });
+    byId("defenseAction").addEventListener("change", toggleDefenseFields);
+    byId("ruleKind").addEventListener("change", syncRuleEvent);
+    byId("stepType").addEventListener("change", () => byId("attemptsField").style.display = byId("stepType").value === "SUSPICIOUS_LOGIN" ? "block" : "none");
+    byId("createRunButton").addEventListener("click", createRun);
+    byId("startRunButton").addEventListener("click", () => runAction("start", "Run started."));
+    byId("stepRunButton").addEventListener("click", stepRun);
+    byId("autoRunButton").addEventListener("click", executeRun);
+    byId("pauseRunButton").addEventListener("click", () => runAction("pause", "Run paused."));
+    byId("stopRunButton").addEventListener("click", () => runAction("stop", "Run stopped."));
+    byId("refreshRunButton").addEventListener("click", refreshSelectedRun);
+    document.querySelectorAll(".feature-card").forEach(card => card.addEventListener("keydown", event => {
+        if (event.target === card && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); card.click(); }
+    }));
+}
+
+window.addEventListener("DOMContentLoaded", async () => {
+    bindEvents();
+    byId("apiBase").value = API_BASE;
+    byId("defenseAction").dispatchEvent(new Event("change"));
+    syncRuleEvent();
+    await resumeSession();
+});
+
+</script>
+
+</body>
+</html>

@@ -25,12 +25,12 @@ public class SecurityConfig {
         http.cors(cors -> cors.configurationSource(request -> {
             var config = new CorsConfiguration();
             config.setAllowedOrigins(Arrays.stream(origins.split(",")).map(String::trim).toList());
-            config.setAllowedMethods(java.util.List.of("GET", "POST", "PATCH", "OPTIONS"));
+            config.setAllowedMethods(java.util.List.of("GET", "POST", "PATCH", "DELETE", "OPTIONS"));
             config.setAllowedHeaders(java.util.List.of("Authorization", "Content-Type"));
             return config;
         }));
         http.sessionManagement(s->s.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        http.authorizeHttpRequests(a->a.requestMatchers("/api/v1/auth/login","/actuator/health/**","/swagger-ui/**","/v3/api-docs/**").permitAll().anyRequest().authenticated());
+        http.authorizeHttpRequests(a->a.requestMatchers("/api/v1/auth/login","/api/v1/auth/register","/actuator/health/**","/swagger-ui/**","/v3/api-docs/**").permitAll().anyRequest().authenticated());
         http.addFilterBefore(new JwtFilter(tokens,jdbc), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

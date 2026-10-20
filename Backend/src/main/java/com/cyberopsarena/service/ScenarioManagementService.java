@@ -67,9 +67,14 @@ public class ScenarioManagementService {
 
         var assets = jdbc.query("SELECT id,template_id FROM assets WHERE id IN (?,?)", (row, n) -> Map.of(row.getLong(1), row.getLong(2)), sourceAssetId, targetAssetId);
         if (assets.size() != 2) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Scenario assets must exist");
-        long sourceTemplate = assets.getFirst().get(sourceAssetId);
-        long targetTemplate = assets.getFirst().get(targetAssetId);
-        if (sourceTemplate != targetTemplate) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Scenario assets must belong to the same template");
+        Map<Long, Long> templateByAsset = new java.util.HashMap<>();
+        assets.forEach(templateByAsset::putAll);
+        Long sourceTemplate = templateByAsset.get(sourceAssetId);
+        Long targetTemplate = templateByAsset.get(targetAssetId);
+        if (sourceTemplate == null || targetTemplate == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Scenario assets must exist");
+        }
+        if (!sourceTemplate.equals(targetTemplate)) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Scenario assets must belong to the same template");
         Integer existing = jdbc.queryForObject("SELECT COUNT(*) FROM scenario_steps ss JOIN assets a ON a.id=ss.source_asset_id WHERE ss.scenario_id=? AND a.template_id<>?", Integer.class, id, sourceTemplate);
         if (existing != null && existing > 0) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "All steps in a scenario must use one template");
 

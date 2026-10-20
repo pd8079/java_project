@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 180" role="img" aria-labelledby="title">
+  <title id="title">C.Ops</title>
+  <defs>
+    <filter id="cyan-glow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="9" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  <text x="300" y="137" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="140" font-weight="800" letter-spacing="-11">
+    <tspan fill="#f2f7ff">C.</tspan><tspan fill="#55e4ff" filter="url(#cyan-glow)">O</tspan><tspan fill="#f2f7ff">ps</tspan>
+  </text>
+</svg>

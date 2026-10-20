@@ -48,7 +48,7 @@ public class DetectionRuleService {
     }
 
     private void validate(RuleCommand rule) {
-        if (!Set.of("REPEATED_FAILED_LOGIN", "UNEXPECTED_TRANSITION", "ISOLATED_ASSET_ATTEMPT", "HIGH_CRITICALITY_ACCESS").contains(rule.ruleType())) {
+        if (!Set.of("REPEATED_FAILED_LOGIN", "UNEXPECTED_TRANSITION", "ISOLATED_ASSET_ATTEMPT", "HIGH_CRITICALITY_ACCESS", "ACCOUNT_COMPROMISE_DETECTED").contains(rule.ruleType())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unsupported detection rule type");
         }
         if (!Set.of("LOW", "MEDIUM", "HIGH", "CRITICAL").contains(rule.severity())) {

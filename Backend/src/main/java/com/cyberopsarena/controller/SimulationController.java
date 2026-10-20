@@ -26,6 +26,8 @@ public class SimulationController {
  @PostMapping("/simulation-runs/{id}/pause") public Object pause(@PathVariable long id,Authentication auth){return service.transition(id,auth.getName(),"PAUSED");}
  @PostMapping("/simulation-runs/{id}/stop") public Object stop(@PathVariable long id,Authentication auth){return service.transition(id,auth.getName(),"STOPPED");}
  @GetMapping("/simulation-runs/{id}/events") public Object events(@PathVariable long id,Authentication auth){service.run(id,auth.getName());return service.events(id);}
+ @GetMapping("/simulation-runs/{id}/assets") public Object assets(@PathVariable long id,Authentication auth){service.run(id,auth.getName());return service.runAssets(id);}
+ @GetMapping("/simulation-runs/{id}/edges") public Object edges(@PathVariable long id,Authentication auth){service.run(id,auth.getName());return service.runEdges(id);}
  @GetMapping("/simulation-runs/{id}/alerts") public Object alerts(@PathVariable long id,Authentication auth){service.run(id,auth.getName());return service.alerts(id);}
  @PostMapping("/simulation-runs/{id}/defenses") public Object defend(@PathVariable long id,@Valid @RequestBody DefenseRequest req,Authentication auth){return service.defend(id,auth.getName(),req);}
  @GetMapping("/simulation-runs/{id}/defenses") public Object defenses(@PathVariable long id,Authentication auth){service.run(id,auth.getName());return service.defenses(id);}

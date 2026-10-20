@@ -1,177 +1,143 @@
-# CyberOps Arena
+<p align="center">
+  <img src="frontend/assets/c-ops-logo.svg" alt="CyberOps Arena" width="260">
+</p>
 
-CyberOps Arena is an educational Java backend for deterministic, isolated cyber attack and defense exercises. It models changes to database records only: it does not scan hosts, execute uploaded code, modify real accounts, or configure real firewalls.
+<h1 align="center">CyberOps Arena</h1>
 
-The repository currently contains the Spring Boot backend under [`Backend/`](Backend/). It exposes a REST API for accounts, network templates, scenarios, simulations, detection rules, alerts, and modeled defenses. There is no Swing desktop application or other frontend in this repository yet; the GUI requirement remains separate work for a client application.
+<p align="center">A simple website for learning how a security team finds and handles cyber threats.</p>
 
-## Backend features
+## What is this project?
 
-- Spring Boot 3.5.16 REST API, Java 21, Maven, MySQL 8.4, and Flyway schema migrations.
-- Stateless bearer-token authentication with signed JWTs, BCrypt password hashes, account enable/disable, and role-based access rules.
-- User CRUD implemented explicitly with `Connection`, `PreparedStatement`, and `ResultSet`; input values are bound parameters.
-- Editable network templates and scenarios, per-run snapshots, lifecycle operations, event history, alert rules, modeled defenses, audit records, and overview/run metrics.
-- Deterministic attack steps dispatched through the `AttackStrategy` interface. `NetworkGraph` checks directed reachability with breadth-first search.
-- Optional background run execution on a named Java `Thread` executing a `Runnable`; clients can poll run status and events.
-- Docker Compose development stack, OpenAPI docs, and MySQL Testcontainers integration tests.
+CyberOps Arena is a practice tool. You can build a small pretend network, run a threat exercise, and review the alerts it creates.
 
-This is an educational project, not production intrusion detection. Detection rules and generated alerts represent simulated evidence only. Defenses change only run-local simulation records.
+> **Safe practice:** All activity is simulated and saved in the project database. The app does not attack real computers, scan real networks, or change real accounts or firewalls.
 
-## Java project requirements represented in the backend
+## Get started
 
-The current code demonstrates organized Java packages, classes and constructors, encapsulated services, user-defined interfaces and implementations, strategy polymorphism, method overriding, lambdas and streams, validation and exception handling, explicit JDBC CRUD, and meaningful background work using `Thread` and `Runnable`. For example, `AttackStrategy` has multiple implementations, while `BackgroundSimulationRunner` executes each requested simulation on a worker thread.
+To use the container setup, you need Docker Compose or Podman Compose. For a manual setup, you also need Java 21, Maven, and MySQL 8.4.
 
-The backend does **not** implement professor requirement 9's Java Swing GUI, Swing event handling, or desktop MVC presentation layer. This repository is an API server; a Swing client would need to be added separately and call the REST endpoints. The backend already separates HTTP controllers, business services, persistence repositories, and domain/simulation code.
+1. Open a terminal in this project.
+2. Go to the backend folder and open a text editor. Make a new file named `.env`:
 
-## Prerequisites
+   ```sh
+   cd Backend
+   ```
 
-- JDK 21
-- Maven 3.6.3 or newer
-- Docker with Compose, or a local MySQL 8.4 server for running the application
-- A working Docker-compatible container runtime for the MySQL integration test (Docker or rootless Podman)
+   Put these settings in `Backend/.env`. Replace the sample text with your own private passwords and secret:
 
-The project targets Java 21. Spring Boot 3.5.16 supports Java 17 through 25. The Maven test configuration detects Bazzite's rootless Podman socket at `${XDG_RUNTIME_DIR}/podman/podman.sock` and configures Testcontainers automatically when it exists and `DOCKER_HOST` is not already set. On Bazzite, enable the user Podman socket if needed with `systemctl --user enable --now podman.socket`, then run the commands below in the same user session. No machine-specific socket settings are committed as project-wide environment requirements.
+   ```env
+   DB_NAME=cyberops_arena
+   DB_USERNAME=cyberops
+   DB_PASSWORD=choose-a-private-database-password
+   MYSQL_ROOT_PASSWORD=choose-a-private-root-password
+   JWT_SECRET=replace-with-at-least-32-random-characters
+   ```
 
-## Start the backend with Compose
+   The JWT secret must have 32 or more characters. Keep this file private.
+3. Start the app:
 
-Run these commands from the backend directory:
+   ```sh
+   docker compose up --build -d
+   ```
+
+   If you use Podman, you can run `podman compose up --build -d` instead.
+
+4. Open **http://localhost:3000** in your browser. Create an Analyst or Defender account, then sign in.
+
+The website is on port `3000`. The Java backend API is on port `8080`. The first start may take a little while because the app needs to download its software and prepare the database.
+
+### Stop the app
+
+Run this command from the `Backend` folder:
+
+```sh
+docker compose down
+```
+
+This stops the app and keeps your saved data. To erase the local database too, run `docker compose down -v`.
+If you started the app with Podman, use `podman compose down` to stop it.
+
+## How to use the website
+
+1. **Network Lab:** Choose a network or make your own. Add pretend devices and accounts, then connect them with edges.
+2. **Simulation:** Choose a saved scenario and create a run. Start it or move through it one step at a time.
+3. **Incidents:** Review alerts made by your runs. Acknowledge or resolve an alert, and try a simulated defense.
+4. **Overview:** Check your latest runs, alerts, and networks.
+
+Choose **Analyst** or **Defender** when you sign up. Each role has its own access. Analysts review alerts and study what happened. Defenders practice protecting the pretend network.
+
+On the sign-in and sign-up screen, select the doodle cat beside a password to show or hide it. When the password is hidden, the cat covers its eyes.
+
+## Project parts
+
+| Folder | What it contains |
+| --- | --- |
+| `frontend/` | The website pages and styles |
+| `Backend/` | The Java web API and database setup |
+| `Backend/src/main/resources/db/migration/` | Database setup steps, run by Flyway |
+
+The app uses Java 21, Spring Boot, MySQL 8.4, and a plain HTML frontend. It uses Docker Compose or Podman Compose to start the parts together.
+
+## Run the website without containers
+
+You can run the backend with a local MySQL server, then serve the website by itself.
+
+First, create a MySQL database and user. Flyway needs permission to create and update database tables:
+
+```sql
+CREATE DATABASE cyberops_arena CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+CREATE USER 'cyberops'@'localhost' IDENTIFIED BY 'choose-a-long-password';
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, INDEX, REFERENCES
+  ON cyberops_arena.* TO 'cyberops'@'localhost';
+```
+
+In one terminal, go to `Backend/`, set your database and JWT settings, then start the backend:
 
 ```sh
 cd Backend
-cp .env.example .env
+export DB_HOST=localhost DB_PORT=3306 DB_NAME=cyberops_arena
+export DB_USERNAME=cyberops DB_PASSWORD='your-database-password'
+export JWT_SECRET='use-at-least-32-random-characters-here'
+mvn spring-boot:run
 ```
 
-Edit `.env` and replace the database password, MySQL root password, and JWT secret with unique values. `JWT_SECRET` must contain at least 32 characters. The example includes optional development bootstrap-admin settings; replace its password with a unique value of at least 14 characters or leave all three `BOOTSTRAP_ADMIN_*` values blank to disable bootstrap creation.
+In another terminal, go to the project folder and start the website:
 
 ```sh
-docker compose up --build -d
+python3 -m http.server 3000 --directory frontend
 ```
 
-The backend listens on `http://localhost:8080`. Check health at [`http://localhost:8080/actuator/health`](http://localhost:8080/actuator/health), readiness at [`http://localhost:8080/actuator/health/readiness`](http://localhost:8080/actuator/health/readiness), and interactive API documentation at [`http://localhost:8080/swagger-ui/index.html`](http://localhost:8080/swagger-ui/index.html).
+Open **http://localhost:3000**. The sign-in page uses `http://localhost:8080/api/v1` for the backend by default. You can change the backend address on that page.
 
-Compose starts MySQL 8.4 and waits for its health check before starting the backend. Flyway applies migrations at startup. Database data persists in the `mysql_data` volume. To stop the services while keeping data, run `docker compose down`. To also erase local database data, run `docker compose down -v`.
+## Test the backend
 
-## Run tests
-
-From `Backend/`, run the full unit and integration suite:
+From the `Backend/` folder, run:
 
 ```sh
 mvn test
 ```
 
-The MySQL lifecycle integration test uses Testcontainers with a real disposable MySQL 8.4 container; it runs Flyway migrations and starts the Spring application on a random HTTP port. It checks health, prepared-statement user CRUD, background simulation completion, and run snapshot/event/alert/defense behavior. `@Testcontainers(disabledWithoutDocker = true)` means the integration test is skipped only when Testcontainers cannot find a usable Docker-compatible runtime. With Docker or the configured Podman socket available, `mvn test` runs it as part of the ordinary suite.
+Some tests need Docker or Podman to start a temporary MySQL database. If no container service is available, the database test may be skipped.
 
-The Bazzite Podman Maven profile is activated automatically when the rootless Podman socket exists and `DOCKER_HOST` is unset. To run only the MySQL integration test:
+## Useful links
 
-```sh
-mvn -Dtest=MySqlLifecycleTest test
-```
+- Website: [http://localhost:3000](http://localhost:3000)
+- Backend health: [http://localhost:8080/actuator/health](http://localhost:8080/actuator/health)
+- API guide: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+- API details in JSON: [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
 
-The unit tests cover directed graph reachability and attack strategy registration. When the full suite was last run for this project, Maven reported 9 tests, 0 failures, 0 errors, and 0 skipped; rerun `mvn test` to see the result for your current machine and checkout.
+## A note about the Java class project
 
-## Run locally with an existing MySQL server
+The backend shows Java packages, classes, constructors, interfaces, and different classes that implement those interfaces. It also uses methods, streams, error handling, JDBC database work, and background threads.
 
-Create the database and an application user. Flyway runs at application startup, so the account needs migration permissions for initial setup:
+The project has a web page. It does **not** include a Java Swing desktop app. If a Swing app is required for your class, it must be made as a separate program and can connect to this backend API.
 
-```sql
-CREATE DATABASE cyberops_arena CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
-CREATE USER 'cyberops'@'localhost' IDENTIFIED BY 'replace-with-a-long-random-password';
-GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, INDEX, REFERENCES ON cyberops_arena.* TO 'cyberops'@'localhost';
-```
+## Need help?
 
-From `Backend/`, set the environment variables below (or load the values from a local `.env` file) and start the app:
+- **The website does not open:** Check that the frontend is running on port `3000`.
+- **Sign-in cannot reach the backend:** Check that the backend is running on port `8080` and that the address on the sign-in page is correct.
+- **The database will not start:** Check the database name, user, and passwords in `Backend/.env`.
+- **The backend reports a JWT error:** Set a JWT secret that has at least 32 characters.
+- **You need an Admin account:** Set `BOOTSTRAP_ADMIN_USERNAME`, `BOOTSTRAP_ADMIN_EMAIL`, and `BOOTSTRAP_ADMIN_PASSWORD` in `Backend/.env`, then restart the backend. The password must have at least 14 characters. New sign-ups can only choose Analyst or Defender.
 
-```sh
-export DB_HOST=localhost DB_PORT=3306 DB_NAME=cyberops_arena
-export DB_USERNAME=cyberops DB_PASSWORD='your-database-password'
-export JWT_SECRET='replace-with-at-least-32-random-characters'
-mvn spring-boot:run
-```
-
-| Variable | Default | Purpose |
-| --- | --- | --- |
-| `DB_HOST` | `localhost` | MySQL hostname |
-| `DB_PORT` | `3306` | MySQL port |
-| `DB_NAME` | `cyberops_arena` | Database name |
-| `DB_USERNAME` | `cyberops` | Application database user |
-| `DB_PASSWORD` | `cyberops-local` in local Spring config | Application database password; set explicitly outside local development |
-| `JWT_SECRET` | empty | HMAC signing secret; required and at least 32 characters |
-| `JWT_EXPIRATION` | `1800` | Access-token lifetime in seconds |
-| `SERVER_PORT` | `8080` | HTTP port |
-| `CORS_ORIGINS` | `http://localhost:3000` | Comma-separated allowed browser origins |
-| `BOOTSTRAP_ADMIN_USERNAME` | empty | Optional one-time administrator username |
-| `BOOTSTRAP_ADMIN_EMAIL` | empty | Optional administrator email |
-| `BOOTSTRAP_ADMIN_PASSWORD` | empty | Optional administrator password, at least 14 characters |
-
-Bootstrap administrator values must be supplied together. Bootstrap only inserts the account if the username does not already exist. Database timestamps use UTC. Production deployments should use a secret manager, a least-privilege database identity, and HTTPS at a trusted proxy or load balancer.
-
-## API overview
-
-Except for login, health endpoints, and API documentation, API requests require `Authorization: Bearer <token>`. The current routes are:
-
-| Method | Path | Purpose |
-| --- | --- | --- |
-| `POST` | `/api/v1/auth/login` | Authenticate and receive a token |
-| `GET` | `/api/v1/auth/me` | Get the authenticated account |
-| `GET`, `POST` | `/api/v1/users` | List users (paged) and create a user (admin) |
-| `GET`, `PATCH`, `DELETE` | `/api/v1/users/{id}` | Read, update, or delete a user (admin) |
-| `PATCH` | `/api/v1/users/{id}/enabled` | Enable or disable a user (admin) |
-| `GET`, `POST` | `/api/v1/network-templates` | List or create network templates |
-| `GET` | `/api/v1/network-templates/{id}` | Read a template |
-| `GET` | `/api/v1/network-templates/{id}/graph` | Read its graph representation |
-| `POST` | `/api/v1/network-templates/{id}/assets` | Add an asset to a template |
-| `POST` | `/api/v1/network-templates/{id}/edges` | Add an edge to a template |
-| `GET`, `POST` | `/api/v1/scenarios` | List or create scenarios |
-| `GET` | `/api/v1/scenarios/{id}` | Read a scenario and its steps |
-| `POST` | `/api/v1/scenarios/{id}/steps` | Append a validated step |
-| `POST`, `GET` | `/api/v1/simulation-runs` | Create a run or list the caller's runs |
-| `GET` | `/api/v1/simulation-runs/{id}` | Read a run and its lifecycle status |
-| `POST` | `/api/v1/simulation-runs/{id}/start` | Start a run |
-| `POST` | `/api/v1/simulation-runs/{id}/execute` | Schedule a run on a background thread (returns `202`) |
-| `POST` | `/api/v1/simulation-runs/{id}/step` | Execute one simulation step |
-| `POST` | `/api/v1/simulation-runs/{id}/pause` or `/stop` | Change run lifecycle state |
-| `GET` | `/api/v1/simulation-runs/{id}/events`, `/alerts`, `/defenses`, `/metrics` | Read run activity and metrics |
-| `POST`, `GET` | `/api/v1/simulation-runs/{id}/defenses` | Apply a modeled defense or list defense history |
-| `GET` | `/api/v1/simulation-runs/compare?firstRunId=1&secondRunId=2` | Compare two runs' metrics |
-| `GET` | `/api/v1/alerts`, `/api/v1/alerts/{id}` | List the caller's alerts or read an alert |
-| `POST` | `/api/v1/alerts/{id}/acknowledge` or `/resolve` | Update alert state |
-| `GET` | `/api/v1/analytics/overview` | Read overview metrics |
-| `GET`, `POST` | `/api/v1/detection-rules` | List or create detection rules |
-| `GET`, `PATCH` | `/api/v1/detection-rules/{id}` | Read or update a detection rule |
-
-Role checks apply to administrative user operations and the scenario/detection-rule write operations annotated in the controllers. Other API operations require authentication and apply run ownership/defender checks where relevant. See Swagger UI for request/response schemas and current validation constraints.
-
-Login example (using the configured bootstrap administrator):
-
-```sh
-curl -s http://localhost:8080/api/v1/auth/login \
-  -H 'Content-Type: application/json' \
-  -d '{"username":"admin","password":"your-bootstrap-password"}'
-```
-
-Use the returned token for authenticated requests:
-
-```sh
-curl -H 'Authorization: Bearer <token>' http://localhost:8080/api/v1/scenarios
-curl -X POST http://localhost:8080/api/v1/simulation-runs \
-  -H 'Authorization: Bearer <token>' -H 'Content-Type: application/json' \
-  -d '{"scenarioId":1}'
-curl -X POST http://localhost:8080/api/v1/simulation-runs/1/execute \
-  -H 'Authorization: Bearer <token>'
-curl -H 'Authorization: Bearer <token>' http://localhost:8080/api/v1/simulation-runs/1
-```
-
-OpenAPI JSON is served at `/v3/api-docs`; Swagger UI is served at `/swagger-ui/index.html`.
-
-## Simulation and data model
-
-Flyway migrations in `Backend/src/main/resources/db/migration` create the core account/network/scenario schema, run and event tables, detection/defense tables, audit/reporting tables, and deterministic demo records (V1 through V5). Hibernate is configured to validate the migrated schema rather than create or mutate it.
-
-Seeded step types include `ACCOUNT_COMPROMISE`, `LATERAL_MOVEMENT`, and `SUSPICIOUS_LOGIN`. Each simulation run snapshots its template assets and edges so simulated defenses remain isolated to that run. Supported defenses are `DISABLE_ACCOUNT`, `ISOLATE_ASSET`, `BLOCK_EDGE`, and `ACKNOWLEDGE_ALERT`. A run's event order and lifecycle are persisted in MySQL; transactions and row locks protect lifecycle transitions and run-local changes. The seeded suspicious-login scenario models a count of failed attempts in one event payload, which is an educational simplification rather than a production time-window detector.
-
-## Troubleshooting
-
-- **MySQL connection refused:** check that the database is running, the host/port are reachable, and all `DB_*` values match.
-- **Access denied or Flyway migration failure:** verify the configured database user/password and migration grants. Do not edit a migration that has already been applied; add a new forward migration for schema changes.
-- **JWT configuration error:** set a `JWT_SECRET` of at least 32 characters.
-- **No admin can log in:** configure all three `BOOTSTRAP_ADMIN_*` values before first startup; demo seed data does not create a known-password administrator.
-- **MySQL lifecycle test skipped:** Docker or Podman is unavailable to Testcontainers. On Bazzite, enable the user Podman socket (`systemctl --user enable --now podman.socket`) and rerun `mvn test`; the configured Maven profile picks up the standard rootless socket automatically when Maven is run in that same user session.
+Do not share your `.env` file or add it to Git. It contains private passwords and secrets.

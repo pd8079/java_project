@@ -14,6 +14,7 @@ import java.util.Set;
 @Service
 public class UserService {
     private static final Set<String> ROLES = Set.of("ADMIN", "ANALYST", "DEFENDER");
+    private static final Set<String> NEW_ACCOUNT_ROLES = Set.of("ANALYST", "DEFENDER");
     private final UserJdbcRepository users;
     private final PasswordEncoder passwords;
 
@@ -35,7 +36,9 @@ public class UserService {
 
     @Transactional
     public Map<String, Object> create(String username, String email, String rawPassword, String role) {
-        validateRole(role);
+        if (!NEW_ACCOUNT_ROLES.contains(role)) {
+            throw badRequest("New accounts must use the Analyst or Defender role");
+        }
         long id = users.create(username, email, passwords.encode(rawPassword), role);
         return get(id);
     }

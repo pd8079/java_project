@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080b14">
+  <title>404 · Signal lost · CyberOps</title>
+  <style>
+    :root { color-scheme: dark; --cyan: #62e8ff; --blue: #668cff; --violet: #bd8aff; --text: #edf3ff; --muted: #92a1bc; }
+    * { box-sizing: border-box; }
+    html { min-height: 100%; background: #080b14; }
+    body {
+      min-height: 100vh; margin: 0; overflow: hidden; display: grid; place-items: center;
+      color: var(--text); font: 16px/1.55 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(ellipse at 50% 38%, rgba(41, 80, 150, .24), transparent 36rem), radial-gradient(ellipse at 80% 85%, rgba(123, 62, 160, .12), transparent 32rem), #080b14;
+    }
+    body::before, body::after { position: fixed; inset: 0; pointer-events: none; content: ""; }
+    body::before { opacity: .18; background-image: linear-gradient(rgba(112, 151, 207, .2) 1px, transparent 1px), linear-gradient(90deg, rgba(112, 151, 207, .2) 1px, transparent 1px); background-size: 54px 54px; mask-image: radial-gradient(ellipse at center, black, transparent 75%); }
+    body::after { background: radial-gradient(ellipse, transparent 34%, rgba(0, 0, 0, .48)); }
+    .stars { position: fixed; inset: 0; opacity: .62; background-image: radial-gradient(1px 1px at 12% 22%, #c4eaff 99%, transparent), radial-gradient(1px 1px at 83% 18%, #9fbdff 99%, transparent), radial-gradient(1.5px 1.5px at 73% 78%, #d4baff 99%, transparent), radial-gradient(1px 1px at 24% 81%, #8de8ff 99%, transparent), radial-gradient(1px 1px at 91% 57%, #fff 99%, transparent); animation: twinkle 4s ease-in-out infinite alternate; }
+    main { position: relative; z-index: 1; width: min(760px, calc(100% - 36px)); padding: 42px 32px 48px; text-align: center; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 6px; color: #dbe7fc; font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    .brand-mark { display: grid; width: 28px; aspect-ratio: 1; place-items: center; color: var(--cyan); border: 1px solid rgba(98, 232, 255, .4); border-radius: 9px; box-shadow: 0 0 22px rgba(98, 232, 255, .12), inset 0 0 18px rgba(98, 232, 255, .08); }
+    .cat-scene { position: relative; width: min(390px, 88vw); height: 260px; margin: 0 auto 2px; }
+    .orbit { position: absolute; left: 50%; top: 52%; width: 265px; height: 115px; border: 1px solid rgba(98, 232, 255, .25); border-radius: 50%; transform: translate(-50%, -50%) rotate(-16deg); box-shadow: 0 0 25px rgba(74, 182, 255, .08), inset 0 0 25px rgba(74, 182, 255, .04); }
+    .orbit::before, .orbit::after { position: absolute; width: 5px; height: 5px; border-radius: 50%; content: ""; background: var(--cyan); box-shadow: 0 0 12px var(--cyan); }
+    .orbit::before { left: 11%; top: 26%; }
+    .orbit::after { right: 8%; bottom: 24%; background: var(--violet); box-shadow: 0 0 12px var(--violet); }
+    .cat { position: absolute; left: 50%; top: 48%; width: 190px; height: 190px; overflow: visible; transform: translate(-50%, -50%); filter: drop-shadow(0 16px 35px rgba(58, 141, 235, .25)); animation: cat-hover 4s ease-in-out infinite; }
+    .cat-tail { transform-box: fill-box; transform-origin: 12% 75%; animation: tail-sway 2.7s ease-in-out infinite; }
+    .scan { position: absolute; left: 50%; top: 50%; width: 180px; height: 1px; opacity: .6; transform: translateX(-50%); background: linear-gradient(90deg, transparent, var(--cyan), transparent); box-shadow: 0 0 14px rgba(98, 232, 255, .9); animation: scan 3.2s ease-in-out infinite; }
+    .code-chip { position: absolute; display: grid; min-width: 46px; height: 25px; place-items: center; padding: 0 8px; color: #a6dfff; border: 1px solid rgba(105, 177, 255, .22); border-radius: 7px; background: rgba(13, 23, 42, .7); font: 11px ui-monospace, SFMono-Regular, Consolas, monospace; box-shadow: 0 0 20px rgba(79, 134, 255, .1); animation: float-chip 5s ease-in-out infinite; }
+    .chip-one { left: 4%; top: 35%; }
+    .chip-two { right: 3%; top: 30%; color: #c4a7ff; animation-delay: -1.4s; }
+    .chip-three { right: 12%; bottom: 13%; animation-delay: -2.6s; }
+    .error-code { margin: 0; color: transparent; font-size: clamp(5rem, 15vw, 8.7rem); font-weight: 850; letter-spacing: -.09em; line-height: .95; background: linear-gradient(110deg, #c8f9ff, #5fdcff 42%, #8c8aff 74%, #d1a5ff); background-clip: text; -webkit-background-clip: text; filter: drop-shadow(0 0 30px rgba(79, 159, 255, .16)); }
+    h1 { margin: 20px 0 8px; font-size: clamp(1.35rem, 4vw, 1.8rem); letter-spacing: -.03em; }
+    .message { max-width: 420px; margin: 0 auto; color: var(--muted); }
+    .message strong { color: #cad7ee; font-weight: 600; }
+    .return-link { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; margin-top: 28px; padding: 0 19px; color: #07111b; border: 1px solid rgba(138, 242, 255, .6); border-radius: 11px; background: linear-gradient(110deg, #7ceaff, #82b9ff 55%, #b799ff); box-shadow: 0 8px 28px rgba(76, 155, 255, .22); font-weight: 750; text-decoration: none; transition: transform .2s ease, box-shadow .2s ease, filter .2s ease; }
+    .return-link:hover { transform: translateY(-3px); filter: brightness(1.08); box-shadow: 0 13px 34px rgba(76, 155, 255, .32); }
+    .return-link:focus-visible { outline: 2px solid white; outline-offset: 4px; }
+    .hint { margin-top: 17px; color: #63738f; font: 11px ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .04em; }
+    @keyframes cat-hover { 0%, 100% { transform: translate(-50%, -50%) rotate(-2deg); } 50% { transform: translate(-50%, calc(-50% - 8px)) rotate(2deg); } }
+    @keyframes tail-sway { 0%, 100% { transform: rotate(-7deg); } 50% { transform: rotate(9deg); } }
+    @keyframes scan { 0%, 100% { opacity: 0; transform: translate(-50%, -75px); } 20%, 75% { opacity: .65; } 50% { transform: translate(-50%, 72px); } }
+    @keyframes float-chip { 0%, 100% { translate: 0 0; } 50% { translate: 0 -8px; } }
+    @keyframes twinkle { from { opacity: .34; } to { opacity: .72; } }
+    @media (max-width: 520px) { main { padding: 26px 4px 36px; } .cat-scene { height: 225px; } .cat { width: 165px; height: 165px; } .orbit { width: 225px; } .code-chip { font-size: 10px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <div class="stars" aria-hidden="true"></div>
+  <main>
+    <div class="brand"><span class="brand-mark" aria-hidden="true">◈</span> CyberOps Arena</div>
+    <div class="cat-scene" aria-hidden="true">
+      <div class="orbit"></div>
+      <span class="code-chip chip-one">0x404</span>
+      <span class="code-chip chip-two">meow.sys</span>
+      <span class="code-chip chip-three">signal: ?</span>
+      <svg class="cat" viewBox="0 0 200 200" role="presentation">
+        <defs>
+          <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#243d63"/><stop offset=".55" stop-color="#172844"/><stop offset="1" stop-color="#312351"/></linearGradient>
+          <linearGradient id="ear" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#6feaff"/><stop offset="1" stop-color="#9a80ff"/></linearGradient>
+          <linearGradient id="visor" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#101d31"/><stop offset="1" stop-color="#172b4a"/></linearGradient>
+        </defs>
+        <g class="cat-tail" fill="none" stroke="#5be5ff" stroke-linecap="round" stroke-width="10"><path d="M48 137c-22 16-24 39-6 43 14 3 20-8 14-16"/><path d="M41 181l7-3" stroke="#b096ff" stroke-width="3"/></g>
+        <path d="M42 80 48 30l38 30m28 0 38-30 6 50" fill="url(#fur)" stroke="#70dcff" stroke-linejoin="round" stroke-width="3"/>
+        <path d="m56 68 3-25 19 16m51 0 19-16 3 25" fill="none" stroke="url(#ear)" stroke-linecap="round" stroke-width="3"/>
+        <path d="M43 79c0-18 14-31 32-31h50c18 0 32 13 32 31v47c0 29-25 49-57 49h-1c-32 0-57-20-57-49z" fill="url(#fur)" stroke="#739bff" stroke-width="2"/>
+        <path d="M58 88c7-14 19-20 42-20s35 6 42 20v29c0 20-17 34-42 34s-42-14-42-34z" fill="url(#visor)" stroke="#4cbadf" stroke-width="2"/>
+        <path d="M69 103c7-6 14-6 21 0m20 0c7-6 14-6 21 0" fill="none" stroke="#83efff" stroke-linecap="round" stroke-width="4"/>
+        <path d="m96 116 4 4 4-4" fill="none" stroke="#cb9cff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+        <path d="M78 128c6 4 12 4 18 0m8 0c6 4 12 4 18 0" fill="none" stroke="#607caa" stroke-linecap="round" stroke-width="2"/>
+        <path d="M99 125v9m-6-4h12" stroke="#68e7ff" stroke-linecap="round" stroke-width="2"/>
+        <circle cx="68" cy="162" r="4" fill="#66eaff"/><circle cx="132" cy="162" r="4" fill="#b895ff"/>
+        <path d="M42 111H22m21 10H28m130-10h20m-21 10h15" stroke="#708bbd" stroke-linecap="round" stroke-width="2"/>
+        <path d="M100 29V15m-6 8 6-8 6 8" fill="none" stroke="#63e6ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </svg>
+      <div class="scan"></div>
+    </div>
+    <p class="error-code" aria-label="Error 404">404</p>
+    <h1>Looks like this cat lost the signal.</h1>
+    <p class="message"><strong>This page slipped into an unmapped part of the network.</strong><br>The CyberOps cat is sniffing around, but the address didn’t resolve.</p>
+    <a class="return-link" href="./index.html"><span aria-hidden="true">←</span> Return to base</a>
+    <p class="hint">PACKET ROUTE: UNKNOWN · PAWS: DEPLOYED</p>
+  </main>
+</body>
+</html>
