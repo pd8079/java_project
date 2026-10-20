@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.cyberopsarena.MySqlLifecycleTest
 -------------------------------------------------------------------------------
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 90.52 s -- in com.cyberopsarena.MySqlLifecycleTest
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 31.35 s -- in com.cyberopsarena.MySqlLifecycleTest

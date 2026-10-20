@@ -30,7 +30,7 @@ public class SecurityConfig {
             return config;
         }));
         http.sessionManagement(s->s.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        http.authorizeHttpRequests(a->a.requestMatchers("/api/v1/auth/login","/actuator/health/**","/swagger-ui/**","/v3/api-docs/**").permitAll().anyRequest().authenticated());
+        http.authorizeHttpRequests(a->a.requestMatchers("/api/v1/auth/login","/actuator/health/**","/swagger-ui/**","/v3/api-docs/**","/index.html").permitAll().anyRequest().authenticated());
         http.addFilterBefore(new JwtFilter(tokens,jdbc), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
