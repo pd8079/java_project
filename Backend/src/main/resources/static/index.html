@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberOps | Security Center</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #0a0f19;
+    color: #e5eaf3;
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 235px;
+    background: #0d1421;
+    border-right: 1px solid #202a3b;
+    padding: 28px 16px;
+    flex-shrink: 0;
+}
+
+.brand {
+    font-size: 21px;
+    font-weight: bold;
+    padding: 0 10px 35px;
+}
+
+.brand span {
+    color: #38bdf8;
+}
+
+.small-title {
+    color: #66758b;
+    font-size: 10px;
+    letter-spacing: 2px;
+    padding: 0 12px;
+    margin-bottom: 13px;
+}
+
+.nav-btn {
+    display: block;
+    width: 100%;
+    padding: 13px 12px;
+    margin-bottom: 6px;
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    color: #9caac0;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.nav-btn:hover,
+.nav-btn.active {
+    background: #17263a;
+    color: #54c8ff;
+}
+
+.sidebar-bottom {
+    margin-top: 45px;
+    padding: 15px 10px;
+    border-top: 1px solid #202a3b;
+    color: #8290a5;
+    font-size: 12px;
+    line-height: 2;
+}
+
+.main {
+    flex: 1;
+    min-width: 0;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 22px 30px;
+    border-bottom: 1px solid #202a3b;
+}
+
+.topbar p {
+    color: #8492a8;
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+}
+
+.avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 10px;
+    background: #16314a;
+    display: grid;
+    place-items: center;
+    color: #58caff;
+    font-weight: bold;
+}
+
+.content {
+    padding: 30px;
+    max-width: 1450px;
+    margin: auto;
+}
+
+.eyebrow {
+    color: #38bdf8;
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+
+h1 {
+    font-size: 29px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #8593a9;
+    line-height: 1.7;
+    font-size: 14px;
+}
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #102a25;
+    color: #5ee0a0;
+    border: 1px solid #1c493d;
+    border-radius: 20px;
+    padding: 8px 12px;
+    font-size: 11px;
+    margin-top: 18px;
+}
+
+.dot {
+    width: 7px;
+    height: 7px;
+    background: #4ade80;
+    border-radius: 50%;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin: 28px 0;
+}
+
+.stat, .panel, .feature-card {
+    background: #101827;
+    border: 1px solid #202d40;
+    border-radius: 11px;
+}
+
+.stat {
+    padding: 20px;
+}
+
+.stat-label {
+    color: #8a99af;
+    font-size: 12px;
+}
+
+.stat-number {
+    font-size: 29px;
+    font-weight: bold;
+    margin: 17px 0 10px;
+}
+
+.stat-note {
+    color: #8a99af;
+    font-size: 11px;
+}
+
+.blue { color: #38bdf8; }
+.red { color: #fb7185; }
+.yellow { color: #fbbf24; }
+.green { color: #4ade80; }
+
+.grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(260px, 1fr);
+    gap: 18px;
+}
+
+.panel {
+    padding: 22px;
+    margin-bottom: 18px;
+}
+
+.panel-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.panel-head h3 {
+    font-size: 15px;
+}
+
+.muted {
+    color: #8190a7;
+    font-size: 11px;
+}
+
+.chart {
+    height: 180px;
+    display: flex;
+    align-items: end;
+    gap: 12px;
+    padding: 10px 5px 0;
+    border-bottom: 1px solid #283447;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 43px,
+        #1d2939 44px
+    );
+}
+
+.bar-wrap {
+    height: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    gap: 8px;
+}
+
+.bar {
+    width: 65%;
+    max-width: 32px;
+    border-radius: 4px 4px 0 0;
+    background: linear-gradient(to top, #087eae, #38bdf8);
+}
+
+.bar-wrap span {
+    color: #8190a7;
+    font-size: 10px;
+    padding-bottom: 8px;
+}
+
+.legend {
+    color: #8190a7;
+    font-size: 11px;
+    margin-top: 15px;
+}
+
+.legend span {
+    color: #38bdf8;
+    margin-right: 6px;
+}
+
+.severity-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 22px 0 9px;
+    font-size: 12px;
+}
+
+.track {
+    height: 6px;
+    background: #263246;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.fill {
+    height: 100%;
+    border-radius: 10px;
+}
+
+.alert {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 0;
+    border-bottom: 1px solid #202a3b;
+}
+
+.alert:last-child {
+    border-bottom: 0;
+}
+
+.alert-icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 9px;
+    display: grid;
+    place-items: center;
+    background: #29202b;
+    color: #fb7185;
+    flex-shrink: 0;
+}
+
+.alert-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.alert-info strong {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.alert-info small {
+    color: #8190a7;
+    font-size: 10px;
+}
+
+.badge {
+    color: #fb7185;
+    background: #321d28;
+    border-radius: 5px;
+    padding: 6px 8px;
+    font-size: 10px;
+}
+
+.features {
+    margin-top: 15px;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 18px;
+}
+
+.feature-card {
+    padding: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.feature-card:hover {
+    border-color: #38bdf8;
+    transform: translateY(-3px);
+}
+
+.feature-icon {
+    font-size: 23px;
+    margin-bottom: 17px;
+}
+
+.feature-card h3 {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.feature-card p {
+    color: #8795aa;
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+.feature-card button {
+    margin-top: 17px;
+    border: 0;
+    background: transparent;
+    color: #38bdf8;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.notice {
+    display: none;
+    margin-top: 20px;
+    padding: 18px;
+    border: 1px solid #24516b;
+    border-radius: 9px;
+    background: #102033;
+    color: #b8dff5;
+    line-height: 1.7;
+    font-size: 13px;
+}
+
+footer {
+    color: #64748b;
+    font-size: 11px;
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid #202a3b;
+}
+
+@media (max-width: 1000px) {
+    .stats, .feature-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 650px) {
+    .layout {
+        display: block;
+    }
+    .sidebar {
+        width: 100%;
+        padding: 18px 12px;
+    }
+    .brand {
+        padding-bottom: 18px;
+    }
+    .small-title, .sidebar-bottom {
+        display: none;
+    }
+    .nav-btn {
+        display: inline-block;
+        width: auto;
+        margin: 0 3px 4px 0;
+        padding: 10px;
+    }
+    .topbar {
+        padding: 18px;
+    }
+    .content {
+        padding: 20px 15px;
+    }
+    .stats {
+        gap: 10px;
+    }
+    .stat {
+        padding: 14px;
+    }
+    .stat-number {
+        font-size: 24px;
+    }
+    h1 {
+        font-size: 25px;
+    }
+    .feature-grid {
+        gap: 10px;
+    }
+    .feature-card {
+        padding: 14px;
+    }
+}
+
+/* Login modal styles */
+.login-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.login-modal .modal-content {
+  background: #222;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.login-modal input {
+  margin: 8px 0;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background: #333;
+  color: #e5eaf3;
+}
+
+.login-modal button {
+  padding: 10px;
+  background: #38bdf8;
+  color: #222;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.login-modal .error {
+  color: #ff6b6b;
+  margin-top: 10px;
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<!-- Login Modal -->
+<div id="login-modal" class="login-modal" style="display:none;">
+  <div class="modal-content">
+    <h2>Login</h2>
+    <input type="text" id="login-username" placeholder="Username" />
+    <input type="password" id="login-password" placeholder="Password" />
+    <button id="login-btn">Login</button>
+    <div id="login-error" class="error"></div>
+  </div>
+</div>
+
+    <aside class="sidebar">
+        <div class="brand">◈ Cyber<span>Ops</span></div>
+
+        <div class="small-title">WORKSPACE</div>
+
+        <button class="nav-btn active" onclick="openSection('Overview', this)">▦ &nbsp; Overview</button>
+        <button class="nav-btn" onclick="openSection('Network Lab', this)">⌘ &nbsp; Network Lab</button>
+        <button class="nav-btn" onclick="openSection('Threat Simulation', this)">◎ &nbsp; Simulation</button>
+        <button class="nav-btn" onclick="openSection('Incident Response', this)">⚑ &nbsp; Incidents</button>
+
+        <div class="sidebar-bottom">
+            <div>● Local demo environment</div>
+            <div>Cybersecurity learning project</div>
+        </div>
+    </aside>
+
+    <main class="main">
+
+        <header class="topbar">
+            <div>
+                <strong id="pageTitle">Security Overview</strong>
+                <p>Cybersecurity operations workspace</p>
+            </div>
+
+            <div class="profile">
+                <div class="avatar">CO</div>
+                <span>Analyst Workspace</span>
+            </div>
+        </header>
+
+        <div class="content">
+
+            <section id="overview">
+                <div class="eyebrow">SECURITY CENTER / OVERVIEW</div>
+
+                <h1>Good to see you, Analyst.</h1>
+
+                <p class="subtitle">
+                    Monitor security activity, review alerts, and
+                    explore your incident response tools.
+                </p>
+
+                <div class="status">
+                    <span class="dot"></span>
+                    Demo environment active
+                </div>
+
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-label">Total Alerts</div>
+                        <div class="stat-number" id="total-alerts">0</div>
+                        <div class="stat-note">Sample activity data</div>
+                    </div>
+
+                    <div class="stat">
+                        <div class="stat-label">Critical Events</div>
+                        <div class="stat-number" id="critical-events">0</div>
+                        <div class="stat-note">Requires review</div>
+                    </div>
+
+                    <div class="stat">
+                        <div class="stat-label">Open Incidents</div>
+                        <div class="stat-number" id="open-incidents">0</div>
+                        <div class="stat-note">Pending investigation</div>
+                    </div>
+
+                    <div class="stat">
+                        <div class="stat-label">Systems Monitored</div>
+                        <div class="stat-number" id="systems-monitored">0</div>
+                        <div class="stat-note">Demo inventory</div>
+                    </div>
+                </div>
+
+                <div class="grid">
+                    <div class="panel">
+                        <div class="panel-head">
+                            <h3>Alert Activity</h3>
+                            <span class="muted">Sample · 7 days</span>
+                        </div>
+
+                        <div class="chart" id="alert-chart">
+                            <!-- Chart will be rendered dynamically -->
+                        </div>
+
+                        <div class="legend"><span>■</span> Illustrative alert volume</div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-head">
+                            <h3>Severity Breakdown</h3>
+                            <span class="muted">Demo data</span>
+                        </div>
+
+                        <div class="severity-row"><span class="red">Critical</span><span id="critical-count">0</span></div>
+                        <div class="track"><div class="fill" id="critical-bar" style="width:0%;background:#fb7185"></div></div>
+
+                        <div class="severity-row"><span class="yellow">High</span><span id="high-count">0</span></div>
+                        <div class="track"><div class="fill" id="high-bar" style="width:0%;background:#fbbf24"></div></div>
+
+                        <div class="severity-row"><span class="blue">Medium</span><span id="medium-count">0</span></div>
+                        <div class="track"><div class="fill" id="medium-bar" style="width:0%;background:#38bdf8"></div></div>
+
+                        <div class="severity-row"><span class="green">Low</span><span id="low-count">0</span></div>
+                        <div class="track"><div class="fill" id="low-bar" style="width:0%;background:#4ade80"></div></div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-head">
+                        <h3>Recent Security Alerts</h3>
+                        <span class="muted">Illustrative records</span>
+                    </div>
+
+                    <div id="alert-list" class="alert-list">
+                        <div class="alert" id="alert-1">
+                            <div class="alert-icon">!</div>
+                            <div class="alert-info">
+                                <strong>Multiple failed login attempts</strong>
+                                <small>Authentication · Sample event</small>
+                            </div>
+                            <span class="badge">HIGH</span>
+                        </div>
+                        <div class="alert" id="alert-2">
+                            <div class="alert-icon">!</div>
+                            <div class="alert-info">
+                                <strong>Unusual network traffic</strong>
+                                <small>Network monitoring · Sample event</small>
+                            </div>
+                            <span class="badge">HIGH</span>
+                        </div>
+                        <div class="alert" id="alert-3">
+                            <div class="alert-icon">!</div>
+                            <div class="alert-info">
+                                <strong>Endpoint requires review</strong>
+                                <small>Endpoint security · Sample event</small>
+                            </div>
+                            <span class="badge">MEDIUM</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="features">
+                <div class="eyebrow">YOUR TOOLS</div>
+                <h2>Explore workspace</h2>
+
+                <div class="feature-grid">
+                    <div class="feature-card" onclick="openSection('Overview')">
+                        <div class="feature-icon">▦</div>
+                        <h3>Security Dashboard</h3>
+                        <p>Review metrics and security alerts.</p>
+                        <button>Open dashboard →</button>
+                    </div>
+
+                    <div class="feature-card" onclick="openSection('Network Lab')">
+                        <div class="feature-icon">⌘</div>
+                        <h3>Network Lab</h3>
+                        <p>Explore a network learning workspace.</p>
+                        <button>Explore network →</button>
+                    </div>
+
+                    <div class="feature-card" onclick="openSection('Threat Simulation')">
+                        <div class="feature-icon">◎</div>
+                        <h3>Threat Simulation</h3>
+                        <p>Learn how security scenarios are analysed.</p>
+                        <button>Open simulation →</button>
+                    </div>
+
+                    <div class="feature-card" onclick="openSection('Incident Response')">
+                        <div class="feature-icon">⚑</div>
+                        <h3>Incident Response</h3>
+                        <p>Explore incident investigation workflows.</p>
+                        <button>View incidents →</button>
+                    </div>
+                </div>
+
+                <div class="notice" id="notice"></div>
+            </section>
+            <section id="networkLab" style="display:none; padding:24px;">
+... (unchanged networkLab and threatSimulation and incidentResponse sections) ...
+
+            <footer>
+                CyberOps Arena · Academic Project · Dashboard values are illustrative demo data.
+            </footer>
+        </div>
+    </main>
+</div>
+
+<script>
+// Utility to set cookies
+function setToken(token){localStorage.setItem('jwt', token);}
+function getToken(){return localStorage.getItem('jwt');}
+function removeToken(){localStorage.removeItem('jwt');}
+
+// Display login modal if no token
+function showLogin(){document.getElementById('login-modal').style.display='flex';}
+function hideLogin(){document.getElementById('login-modal').style.display='none';}
+
+// Login handler
+document.getElementById('login-btn').addEventListener('click', async()=>{
+  const user=document.getElementById('login-username').value;
+  const pass=document.getElementById('login-password').value;
+  if(!user||!pass){document.getElementById('login-error').textContent='Enter both username and password';return;}
+  try{
+    const res=await fetch('/api/v1/auth/login',{
+      method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:user,password:pass})
+    });
+    if(!res.ok){document.getElementById('login-error').textContent='Login failed';return;}
+    const data=await res.json();
+    setToken(data.accessToken);
+    hideLogin();
+    initDashboard();
+  }catch(err){document.getElementById('login-error').textContent='Error: '+err.message;}
+});
+
+// After DOM load
+document.addEventListener('DOMContentLoaded',()=>{
+  if(getToken()){initDashboard();}else{showLogin();}
+});
+
+// Initialize dashboard data
+async function initDashboard(){
+  await fetchOverview();
+  await fetchAlerts();
+  // Additional fetches can be added such as incidents, network graph, etc.
+}
+
+// Fetch overview data
+async function fetchOverview(){
+  try{
+    const res=await fetch('/api/v1/analytics/overview',{headers:{'Authorization':'Bearer '+getToken()}});
+    const data=await res.json();
+    document.getElementById('total-alerts').textContent=data.events||0;
+    document.getElementById('critical-events').textContent=data.events||0; // placeholder
+    document.getElementById('open-incidents').textContent=data.openAlerts||0;
+    document.getElementById('systems-monitored').textContent=25; // static
+  }catch(err){console.warn('Overview fetch error',err);}
+}
+
+// Fetch alerts and update list
+async function fetchAlerts(){
+  try{
+    const res=await fetch('/api/v1/alerts',{headers:{'Authorization':'Bearer '+getToken()}});
+    const alerts=await res.json();
+    const container=document.getElementById('alert-list');
+    container.innerHTML='';
+    alerts.slice(0,3).forEach((a,i)=>{
+      const div=document.createElement('div');
+      div.className='alert';
+      div.innerHTML=`<div class="alert-icon">!</div><div class="alert-info"><strong>${a.title}</strong><small>${a.type} · ${a.description}</small></div><span class="badge">${a.severity}</span>`;
+      container.appendChild(div);
+    });
+  }catch(err){console.warn('Alerts fetch error',err);}
+}
+
+// Section navigation logic
+function openSection(name, button){
+  document.getElementById('pageTitle').textContent=name;
+  document.querySelectorAll('.nav-btn').forEach(item=>item.classList.remove('active'));
+  if(button) button.classList.add('active');
+  const notice=document.getElementById('notice');
+  const sections={
+    'Overview':{overview:true,features:true,networkLab:false,threatSimulation:false,incidentResponse:false},
+    'Network Lab':{overview:false,features:false,networkLab:true,threatSimulation:false,incidentResponse:false},
+    'Threat Simulation':{overview:false,features:false,networkLab:false,threatSimulation:true,incidentResponse:false},
+    'Incident Response':{overview:false,features:false,networkLab:false,threatSimulation:false,incidentResponse:true}
+  };
+  const s=sections[name];
+  document.getElementById('overview').style.display=s.overview?'block':'none';
+  document.querySelector('.features').style.display=s.features?'block':'none';
+  document.getElementById('networkLab').style.display=s.networkLab?'block':'none';
+  document.getElementById('threatSimulation').style.display=s.threatSimulation?'block':'none';
+  document.getElementById('incidentResponse').style.display=s.incidentResponse?'block':'none';
+  notice.style.display='none';
+}
+</script>
+
+</body>
+</html>
