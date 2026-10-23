@@ -1488,13 +1488,14 @@ html.transitioning .stat, html.transitioning .panel, html.transitioning .feature
     </main>
 </div>
 
+<script src="/deploy-config.js"></script>
 <script>
 const transitionOverlay = document.getElementById("transitionOverlay");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const $ = selector => document.querySelector(selector);
 const byId = id => document.getElementById(id);
 const cache = { alerts: [], runs: [], scenarios: [], templates: [], rules: [], users: [], selectedRun: null, runAssets: [], runEdges: [] };
-let API_BASE = localStorage.getItem("cyberopsApiBase") || `${window.location.protocol === "https:" ? "https:" : "http:"}//${window.location.hostname || "localhost"}:8080/api/v1`;
+let API_BASE = localStorage.getItem("cyberopsApiBase") || window.CYBEROPS_API_BASE || `${window.location.protocol === "https:" ? "https:" : "http:"}//${window.location.hostname || "localhost"}:8080/api/v1`;
 let authToken = sessionStorage.getItem("cyberopsToken");
 let currentUser = null;
 let authMode = "login";
