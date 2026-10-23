@@ -21,23 +21,21 @@ mysqld --user=mysql \
   --max-connections=24
 
 for attempt in $(seq 1 60); do
-  if mysqladmin ping --host=127.0.0.1 --silent; then
+  if mysqladmin --user=root ping --silent; then
     break
   fi
   sleep 1
 done
 
-if ! mysqladmin ping --host=127.0.0.1 --silent; then
+if ! mysqladmin --user=root ping --silent; then
   echo "MySQL did not become ready" >&2
   exit 1
 fi
 
-mysql --protocol=TCP --host=127.0.0.1 --user=root <<SQL
+mysql --user=root <<SQL
 CREATE DATABASE IF NOT EXISTS \`$MYSQL_DATABASE\`;
-CREATE USER IF NOT EXISTS '$MYSQL_USER'@'127.0.0.1';
-CREATE USER IF NOT EXISTS '$MYSQL_USER'@'localhost';
-GRANT ALL PRIVILEGES ON \`$MYSQL_DATABASE\`.* TO '$MYSQL_USER'@'127.0.0.1';
-GRANT ALL PRIVILEGES ON \`$MYSQL_DATABASE\`.* TO '$MYSQL_USER'@'localhost';
+CREATE USER IF NOT EXISTS '$MYSQL_USER'@'%';
+GRANT ALL PRIVILEGES ON \`$MYSQL_DATABASE\`.* TO '$MYSQL_USER'@'%';
 FLUSH PRIVILEGES;
 SQL
 
